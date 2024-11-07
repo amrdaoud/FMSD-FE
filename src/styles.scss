@@ -31,5 +31,33 @@ body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+//App Styles
+.container {
+  padding-top: 30px;
+  padding-left:15px;
+  padding-right:15px;
+}
+.xlarge .container {
+  padding-left: 300px;
+  padding-right: 300px;
+}
+.dashboard-container {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.xlarge .main-toolbar  {
+  padding-left: 300px;
+  padding-right: 300px;
+}
+.main-toolbar {
+  background-color: #fff !important;
+  box-shadow: 0 0 30px rgba(28, 39, 60, 0.08);
+  border-bottom: 1px solid rgba(28, 39, 60, 0.12);
+}
+
+.full-spacer {
+  flex: 1 1 auto;
+}
 
 
