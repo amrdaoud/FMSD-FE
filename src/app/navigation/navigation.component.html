@@ -1,0 +1,31 @@
+<mat-toolbar class="main-toolbar">
+    <div class="main-toolbar-content">
+ <div class="main-toolbar-title">
+    Fuel DSS
+ </div>
+ <div class="header-menu">
+    <div class="menu-item" routerLink="dashboard" routerLinkActive="selected">
+        <mat-icon>dashboard</mat-icon>Dashbaord
+    </div>
+    <div class="menu-item" routerLinkActive="selected" [matMenuTriggerFor]="reportMenu">
+        <mat-icon>table</mat-icon>Reports<mat-icon>arrow_drop_down</mat-icon>
+    </div>
+ </div>
+ <div>
+    <div class="header-options">
+        <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+        <img class="avatar"  [src]="'images/avatar.png'" onerror="this.onerror=null; this.src='images/avatar.png';">
+    </div>
+ </div>
+</div>
+</mat-toolbar>
+<div class="container">
+<router-outlet></router-outlet>
+</div>
+
+<mat-menu #reportMenu>
+    <div class="menu-item" routerLink="report1" routerLinkActive="selected" mat-menu-item>
+        <mat-icon>table</mat-icon>
+        Report01
+    </div>
+</mat-menu>
