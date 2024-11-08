@@ -1,0 +1,33 @@
+<div class="dashboard-header">
+    <div class="dashboard-header-title">
+        <h2>Hi, welcome back!</h2>
+        <p>Fuel analysis dashboard</p>
+    </div>
+    <div class="dashboard-header-right">
+        <div class="date-control">
+            <p>START DATE</p>
+            <h5>{{dateForm.value.startDate | date}}</h5>
+        </div>
+        <div class="date-control">
+            <p>END DATE</p>
+            <h5>{{dateForm.value.endDate | date}}</h5>
+        </div>
+        <button mat-flat-button (click)="openDateDialog()">
+            Dates
+        </button>
+    </div>
+</div>
+<mat-grid-list rowHeight="200" [cols]="cols()" gutterSize="20">
+    <mat-grid-tile rowspan="2" [colspan]="3">
+            <app-fuel-availability-chart-report></app-fuel-availability-chart-report>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <app-dashboard-card-layout>
+        </app-dashboard-card-layout>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <app-dashboard-card-layout>
+
+        </app-dashboard-card-layout>
+    </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Seletct Dates
+      </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="dateForm" class="form-container">
+      <div class="date-picker-container">
+      <mat-form-field [subscriptSizing]="'dynamic'" class="date-picker-control">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input formControlName="startDate" matStartDate placeholder="Start date">
+            <input formControlName = "endDate" matEndDate placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="btn-container">
+        <button type="submit" mat-flat-button [mat-dialog-close]="dateForm">Apply</button>
+      </div>
+      </form>
+  </mat-card>
+  
+  
