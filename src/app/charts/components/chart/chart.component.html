@@ -1,0 +1,13 @@
+<div class="chart-area">
+    @if (loading()) {
+        <app-simple-loader></app-simple-loader>
+    }
+    <canvas
+        class="chart-canvas"
+        baseChart 
+        [data]="chartData()"
+        [type]="chartType()"
+        [options]="chartOptions()"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+</div>
