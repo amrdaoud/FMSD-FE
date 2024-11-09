@@ -15,7 +15,6 @@
         </mat-button-toggle-group>
     </div>
     <div class="dashboard-card-info">
-        @if(chartReport().values && chartReport().values.length > 0) {
             @for (item of chartReport().values; track $index) {
                 <div class="value-container">
                     <div class="text">
@@ -26,17 +25,24 @@
                     </div>
                 </div>
                 }
-        }
+        <span class="full-spacer"></span>
+            @if (drillParameter().length > 1) {
+                <button mat-button (click)="rollUp()">
+                    <mat-icon>reply</mat-icon>
+                    {{drillParameter()[drillParameter().length - 1].label}}
+                </button>
+            }
         
     </div>
     
     <div class="dashboard-card-content">
-        <app-chart
-        [datasets]="chartReport().datasets"
-        [labels]="chartReport().labels"
-        [chartType]="'bar'"
-    >
-    </app-chart>
+            <app-chart
+            [datasets]="selectedOption() === 0 ? chartReport().datasets : chartReportTcv().datasets"
+            [labels]="selectedOption() === 0 ? chartReport().labels : chartReportTcv().labels"
+            [chartType]="'bar'"
+            [loading]="loadingChart()"
+            (clickedChartObjectChange)="pushParameter($event)">
+            </app-chart>
     </div>
    
 </app-dashboard-card-layout>
