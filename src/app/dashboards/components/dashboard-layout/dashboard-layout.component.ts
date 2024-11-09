@@ -11,7 +11,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FuelAvailabilityChartReportComponent } from "../cards/fuel-availability-chart-report/fuel-availability-chart-report.component";
 import { DailyFuelAvailabilityCardComponent } from "../cards/daily-fuel-availability-card/daily-fuel-availability-card.component";
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { dashboardDateFilterModel } from '../../models/dashboard';
 @Component({
   selector: 'app-dashboard-layout',
@@ -34,7 +34,11 @@ export class DashboardLayoutComponent {
   openDateDialog() {
     this.dateDialog.open(DateDialogComponent, {data: this.dateForm})
   }
-  dateFilter = toSignal(this.dateForm.valueChanges as Observable<dashboardDateFilterModel>,
+  dateFilter = toSignal(
+    this.dateForm.valueChanges
+    .pipe(
+      filter(x => this.dateForm.valid)
+    ) as Observable<dashboardDateFilterModel>,
     {initialValue: {
       startDate: new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000),
       endDate: this.currentDate
