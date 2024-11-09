@@ -1,8 +1,8 @@
 .chart-area {
-    height:98%;
     width:100%;
     position: relative;
 }
-.chart-canvas {
+.chart-area canvas {
+    height: 100% !important;
     width:100% !important;
 }

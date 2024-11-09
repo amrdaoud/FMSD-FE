@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ChartApiResponse } from '../models/dashboard';
+import { ChartApiResponse, dashboardDateFilterModel } from '../models/dashboard';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -10,9 +10,15 @@ import { environment } from '../../../environments/environment';
 export class DashboardService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}Dashboard`;
+
   private fuelAvailabilityLoading$ = signal(false);
   get fuelAvailabilityLoading(): Signal<boolean> {
     return computed(() => this.fuelAvailabilityLoading$())
+  }
+
+  private dailyFuelAvailabilityLoading$ = signal(false);
+  get dailyFuelAvailabilityLoading(): Signal<boolean> {
+    return computed(() => this.dailyFuelAvailabilityLoading$())
   }
   getFuelAvailabilityChart(groupBy: string, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
@@ -30,6 +36,13 @@ export class DashboardService {
     }
     return result.pipe(
       finalize(() => this.fuelAvailabilityLoading$.set(false))
+    )
+  }
+  getDailyAvailabilityCard(dateFilter: dashboardDateFilterModel): Observable<ChartApiResponse> {
+    console.log(dateFilter);
+    this.dailyFuelAvailabilityLoading$.set(true);
+    return this.http.post<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelLevel', dateFilter).pipe(
+      finalize(() => this.dailyFuelAvailabilityLoading$.set(false))
     )
   }
 }
