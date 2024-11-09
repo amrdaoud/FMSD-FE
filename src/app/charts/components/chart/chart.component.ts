@@ -3,11 +3,12 @@ import { ChartConfiguration, ChartEvent } from 'chart.js';
 import { SimpleLoaderComponent } from "../../../loaders/simple-loader/simple-loader.component";
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartService } from '../../services/chart.service';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
-  imports: [SimpleLoaderComponent, BaseChartDirective],
+  imports: [SimpleLoaderComponent, BaseChartDirective, NgStyle],
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss'
 })
@@ -25,10 +26,11 @@ export class ChartComponent {
   pointRadius = input<number>(0);
   lineTension = input<number>(0.2);
   lineWidth = input<number>(2);
-
   loading = input<boolean>(false);
 
   clickedChartObject = model<{serie?: string, label?: string}>();
+
+  chartHeightPercent = input<number>(100);
 
   chartData = this.chartService.createChartData(this.datasets, this.labels);
   chartOptions = this.chartService.createChartOptions(

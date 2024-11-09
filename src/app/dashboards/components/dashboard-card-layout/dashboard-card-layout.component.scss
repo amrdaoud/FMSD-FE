@@ -1,8 +1,4 @@
 @use '@angular/material' as mat;
-:host {
-    width:100%;
-    height:calc(100% - 10px);
-}
 .dashboard-card {
     width:100%;
     height:100%;
@@ -17,10 +13,12 @@
 ::ng-deep .dashboard-card-title-subtitle {
     display: flex;
     flex-direction: column;
+    max-width: 70%;
 }
 ::ng-deep .dashboard-card-header {
     padding: 20px;
     height: 60px;
+    //flex: 0 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -28,10 +26,21 @@
 }
 ::ng-deep .dashboard-card-title {
     font-weight: bolder;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+::ng-deep .dashboard-card-subtitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 ::ng-deep .dashboard-card-info {
     padding: 20px;
     height: 60px;
+    //flex: 0 0 auto;
     display: flex;
     flex-direction: row;
     gap: 20px;

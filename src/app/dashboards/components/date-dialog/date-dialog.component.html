@@ -17,7 +17,7 @@
         </mat-form-field>
       </div>
       <div class="btn-container">
-        <button type="submit" mat-flat-button [mat-dialog-close]="dateForm">Apply</button>
+        <button [disabled]="dateForm.invalid" type="submit" mat-flat-button [mat-dialog-close]="dateForm">Apply</button>
       </div>
       </form>
   </mat-card>

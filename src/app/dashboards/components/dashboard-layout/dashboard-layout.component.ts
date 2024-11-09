@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DateDialogComponent } from '../date-dialog/date-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,17 +9,20 @@ import { DeviceService } from '../../../app-services/device.service';
 import { DashboardCardLayoutComponent } from "../dashboard-card-layout/dashboard-card-layout.component";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FuelAvailabilityChartReportComponent } from "../cards/fuel-availability-chart-report/fuel-availability-chart-report.component";
+import { DailyFuelAvailabilityCardComponent } from "../cards/daily-fuel-availability-card/daily-fuel-availability-card.component";
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { dashboardDateFilterModel } from '../../models/dashboard';
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [DatePipe, MatButtonModule, MatGridListModule, DashboardCardLayoutComponent, MatButtonToggleModule, FuelAvailabilityChartReportComponent],
+  imports: [DatePipe, MatButtonModule, MatGridListModule, DashboardCardLayoutComponent, MatButtonToggleModule, FuelAvailabilityChartReportComponent, DailyFuelAvailabilityCardComponent],
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss'
 })
 export class DashboardLayoutComponent {
   private dateDialog = inject(MatDialog);
   cols = inject(DeviceService).dashboardCols;
-
 
 
 
@@ -31,4 +34,10 @@ export class DashboardLayoutComponent {
   openDateDialog() {
     this.dateDialog.open(DateDialogComponent, {data: this.dateForm})
   }
+  dateFilter = toSignal(this.dateForm.valueChanges as Observable<dashboardDateFilterModel>,
+    {initialValue: {
+      startDate: new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000),
+      endDate: this.currentDate
+    }}
+  )
 }

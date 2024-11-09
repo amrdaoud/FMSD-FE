@@ -1,0 +1,49 @@
+@import '../../../../../color-variables.scss';
+:host {
+    width:100%;
+    height:calc(100% - 10px);
+}
+.card-content {
+    display: flex;
+    flex-direction: column;
+    height:100%;
+}
+.chart-content {
+    height:106px;
+}
+.text-area {
+    max-height:40%;
+    padding: 20px 0px 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.ledger-area {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: end;
+    
+    .value {
+        font-size: 28px;
+        line-height: 28px;
+        font-weight: 500;
+    }
+    .details {
+        font-size: 14px;
+        display: flex;
+        gap: 5px;
+        .up {
+            color: $success-color;
+        }
+        .down {
+            color: $fail-color;
+        }
+        align-items: center;
+        justify-content: center;
+        .text {
+            color: #7D92B0;
+            line-height: 24px;
+        }
+    }
+}

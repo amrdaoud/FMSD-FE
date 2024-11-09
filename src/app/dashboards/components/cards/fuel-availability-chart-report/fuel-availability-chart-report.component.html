@@ -36,13 +36,16 @@
     </div>
     
     <div class="dashboard-card-content">
+            <div class="chart-content">
             <app-chart
             [datasets]="selectedOption() === 0 ? chartReport().datasets : chartReportTcv().datasets"
             [labels]="selectedOption() === 0 ? chartReport().labels : chartReportTcv().labels"
             [chartType]="'bar'"
             [loading]="loadingChart()"
+            [chartHeightPercent]="99"
             (clickedChartObjectChange)="pushParameter($event)">
             </app-chart>
+        </div>
     </div>
    
 </app-dashboard-card-layout>
