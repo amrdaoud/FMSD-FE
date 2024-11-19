@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ChartApiResponse, dashboardDateFilterModel } from '../models/dashboard';
+import { ChartApiResponse, DashboardDateFilterModel } from '../models/dashboard';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -38,7 +38,7 @@ export class DashboardService {
       finalize(() => this.fuelAvailabilityLoading$.set(false))
     )
   }
-  getDailyAvailabilityCard(dateFilter: dashboardDateFilterModel): Observable<ChartApiResponse> {
+  getDailyAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
     console.log(dateFilter);
     this.dailyFuelAvailabilityLoading$.set(true);
     return this.http.post<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelLevel', dateFilter).pipe(

@@ -11,6 +11,7 @@
 // Be sure that you only ever include this mixin once!
 :root {
   @include mat.all-component-themes(m3-theme.$light-theme);
+  @include mat.form-field-density(-3);
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
@@ -61,3 +62,7 @@ body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
 }
 
 
+.data-table-filter-menu.mat-mdc-menu-panel {
+  max-width: unset !important;
+  overflow-x: hidden;
+}
