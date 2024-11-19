@@ -1,27 +1,23 @@
-import { DatePipe } from "@angular/common";
+import { DatePipe, DecimalPipe } from "@angular/common";
 import { DataTableColumnDef } from "../../../../app-reusables/elements/data-table/models/data-table-column-def";
 import { DataTableFilter } from "../../../../app-reusables/elements/data-table/models/data-table-filter";
-import { AlarmRequestViewModel } from "../models/alarm-request-view-model";
 import { inject } from "@angular/core";
 import { GenericService } from "../../../services/generic.service";
-export class AlarmReportConsts {
+import { TankRequestViewModel } from "../models/tank-request-view-model";
+import { of } from "rxjs";
+export class TankMeasurementConsts {
     private static currentDate = new Date();
     private static lastWeekDate = new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
     static columns: DataTableColumnDef[] = [
-        {name: '#', property: 'id', isSort: true},
-        {name: 'Type', property: 'alarmType', isSort: true},
-        {name: 'Code', property: 'alarmCode', isSort: true},
-        {name: 'Description', property: 'description', isSort: true},
-        {name: 'Status', property: 'status', isSort: true, highlights: [
-            {operation: '=', value: 'active', color: 'rgb(26, 213, 152)', backgroundColor: 'rgba(26, 213, 152,0.3)'},
-            {operation: '=', value: 'inactive', color: 'rgb(234, 58, 61)', backgroundColor: 'rgba(234, 58, 61, 0.2)'},
-        ]},
-        {name: 'Acknowledge By', property: 'acknowledgeUser', isSort: true},
-        {name: 'Time', property: 'alarmTime', isSort: true, pipe: DatePipe, pipeArgs: 'MMM dd,yyyy HH:mm:ss'},
-        {name: 'Inactive Time', property: 'inactiveTime', isSort: true, pipe: DatePipe, pipeArgs: 'MMM dd,yyyy HH:mm:ss'},
-        {name: 'Acknowledge Time', property: 'acknowledgeTime', isSort: true, pipe: DatePipe, pipeArgs: 'MMM dd,yyyy HH:mm:ss'}
+        {name: 'Name', property: 'groupingName', isSort: true},
+        {name: 'Fuel Level', property: 'fuelLevel', isSort: true, pipe: DecimalPipe},
+        {name: 'Fuel Volume', property: 'fuelVolume', isSort: true, pipe: DecimalPipe},
+        {name: 'Water Level', property: 'waterLevel', isSort: true, pipe: DecimalPipe},
+        {name: 'Water Volume', property: 'waterVolume', isSort: true, pipe: DecimalPipe},
+        {name: 'TCV', property: 'tcv', isSort: true, pipe: DecimalPipe},
+        {name: 'Temperature', property: 'temperature', isSort: true, pipe: DecimalPipe}
     ];
-    static initialFilters: AlarmRequestViewModel = {
+    static initialFilters: TankRequestViewModel = {
         pageIndex: 0,
         pageSize: 20,
         searchQuery: '',
@@ -37,21 +33,31 @@ export class AlarmReportConsts {
                 controlName2: 'endDate', isMandatory: false,
             },
             {
-                type: 'select', controlName: 'alarmTypes',
-                isMulti: true, data$: inject(GenericService).getAlarmTypes(),
-                isLoading: inject(GenericService).loadingAlarmTypes,
-                label: 'Alarm Type'
-            },
-            {
                 type: 'select', controlName: 'cities',
                 isMulti: true, data$: inject(GenericService).getCities(),
                 isLoading: inject(GenericService).loadingCities,
                 label: 'City'
             },
             {
+                type: 'select', controlName: 'timeGroup',
+                isMulti: false, data$: of(['Yearly', 'Monthly', 'Daily', 'Hourly']),
+                label: 'Time Group'
+            },
+            {
+                type: 'select', controlName: 'groupBy',
+                isMulti: false, data$: of(['City', 'Station', 'Tank']),
+                label: 'Group By'
+            },
+            {
                 type: 'select', controlName: 'stationGuids',
                 isMulti: true, data$: inject(GenericService).getStations(),
                 isLoading: inject(GenericService).loadingStations,
+                label: 'Station', valueProperty: 'guid', displayProperty: 'stationName'
+            },
+            {
+                type: 'select', controlName: 'tankGuids',
+                isMulti: true, data$: inject(GenericService).getTanks(),
+                isLoading: inject(GenericService).loadingTanks,
                 label: 'Station', valueProperty: 'guid', displayProperty: 'stationName'
             }
         ]

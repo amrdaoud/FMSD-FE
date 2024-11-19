@@ -7,13 +7,9 @@
                         {{reportChart().cardValue?.boldValue}}
                     </div>
                     <div class="details">
-                        @if(reportChart().cardValue?.isUp) {
-                        <mat-icon class="up">
-                            trending_up
-                        </mat-icon>
-                        } @else {
-                        <mat-icon class="down">
-                            trending_down
+                        @if(reportChart().cardValue?.icon) {
+                        <mat-icon [ngStyle]="{'color': reportChart().cardValue?.icon?.color}">
+                            {{reportChart().cardValue?.icon?.text}}
                         </mat-icon>
                         }
                         <span class="text">

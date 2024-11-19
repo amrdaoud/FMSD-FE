@@ -6,11 +6,12 @@ import { DashboardDateFilterModel } from '../../../models/dashboard';
 import { switchMap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { ChartComponent } from '../../../../app-reusables/elements/charts/components/chart/chart.component';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-daily-fuel-availability-card',
   standalone: true,
-  imports: [DashboardCardLayoutComponent, ChartComponent, MatIconModule],
+  imports: [DashboardCardLayoutComponent, ChartComponent, MatIconModule, NgStyle],
   templateUrl: './daily-fuel-availability-card.component.html',
   styleUrl: './daily-fuel-availability-card.component.scss'
 })

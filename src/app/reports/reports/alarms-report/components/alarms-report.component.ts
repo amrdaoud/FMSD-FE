@@ -31,7 +31,7 @@ export class AlarmsReportComponent implements OnDestroy {
   downloadData() {
     const dd = Date.now();
     this.downloadSubscription = this.reportService.downloadData('exportAlarms', this.initialFilters()).subscribe(x => {
-      MYDOWNLOAD.downloadFile(x);
+      MYDOWNLOAD.downloadFile(x, 'Alarms');
     })
   }
   ngOnDestroy(): void {

@@ -66,7 +66,7 @@
                     <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic" >
                         <mat-label>{{filter.label}}</mat-label>
                         <mat-select [formControlName]="filter.controlName"
-                            [placeholder]="filter.placeHolder ?? '' + ((filter.isLoading!()) ? ' (loading..)' : '')"
+                            [placeholder]="filter.placeHolder ?? '' + ((filter.isLoading && filter.isLoading!()) ? ' (loading..)' : '')"
                             [multiple]="filter.isMulti">
                             @if(!filter.isMulti) {
                                 <mat-option [value]="">

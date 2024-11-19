@@ -39,9 +39,11 @@ export class DashboardService {
     )
   }
   getDailyAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
-    console.log(dateFilter);
     this.dailyFuelAvailabilityLoading$.set(true);
-    return this.http.post<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelLevel', dateFilter).pipe(
+    var params = new HttpParams();
+    params = params.append('startDate', dateFilter.startDate.toISOString());
+    params = params.append('endDate', dateFilter.endDate.toISOString());
+    return this.http.get<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelVolume', {params}).pipe(
       finalize(() => this.dailyFuelAvailabilityLoading$.set(false))
     )
   }

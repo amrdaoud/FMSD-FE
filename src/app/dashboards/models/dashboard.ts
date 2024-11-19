@@ -7,7 +7,7 @@ export interface ChartApiResponse {
     cardValue?: CardValueModel
 }
 export interface CardValueModel {
-    isUp: boolean;
+    icon?:IconModel;
     boldValue: string;
     boldValueTitle: string;
     lightValue: string;
@@ -16,4 +16,8 @@ export interface CardValueModel {
 export interface DashboardDateFilterModel {
     startDate: Date,
     endDate: Date
+}
+export interface IconModel {
+    text: string;
+    color: string;
 }
