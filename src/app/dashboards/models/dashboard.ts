@@ -13,7 +13,7 @@ export interface CardValueModel {
     lightValue: string;
     lightValueTitle: string;
 }
-export interface dashboardDateFilterModel {
+export interface DashboardDateFilterModel {
     startDate: Date,
     endDate: Date
 }

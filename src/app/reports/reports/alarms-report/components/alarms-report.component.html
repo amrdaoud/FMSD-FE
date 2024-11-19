@@ -1,0 +1,17 @@
+<app-data-table
+[title]="'Alarm Report'"
+[subtitle]="'This report show the latest alarms on strategic stations'"
+[columns]="columns"
+[filters]="filters"
+[data]="dataWithSize()!.data"
+[dataSize]="dataWithSize()!.dataSize"
+sortActive="alarmTime"
+sortDirection="desc"
+[loading]="loading()"
+[loadingDownload]="loadingDownload() > 0"
+(downloadRequested)="downloadData()"
+
+[(requestObject)]="initialFilters"
+
+></app-data-table>
+

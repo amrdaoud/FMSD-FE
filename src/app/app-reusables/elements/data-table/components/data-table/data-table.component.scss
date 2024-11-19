@@ -1,0 +1,49 @@
+
+th {
+    font-size: 12px;
+}
+td {
+    font-size: 12px;
+}
+.data-table-card, table, .data-table-paginator {
+    background-color: #fff;
+}
+.data-table-card-content {
+    overflow-x: auto;
+}
+.mat-icon {
+    stroke: #000;
+}
+.data-table-progress-bar {
+    height: 4px;
+}
+.data-table-fitler-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.data-table-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.download-btn-container {
+    padding-top:10px;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.download-btn {
+    transition: 1s;
+}
+.download-btn.loading {
+    width: 20px;
+}
+.filter-menu-btn {
+    .mat-icon {
+        stroke: #6c5eff;
+    }
+}

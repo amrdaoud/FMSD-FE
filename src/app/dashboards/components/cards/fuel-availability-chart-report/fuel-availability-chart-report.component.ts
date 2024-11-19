@@ -4,9 +4,9 @@ import { DashboardCardLayoutComponent } from '../../dashboard-card-layout/dashbo
 import { DashboardService } from '../../../services/dashboard.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
-import { ChartComponent } from '../../../../charts/components/chart/chart.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ChartComponent } from '../../../../app-reusables/elements/charts/components/chart/chart.component';
 
 @Component({
   selector: 'app-fuel-availability-chart-report',
