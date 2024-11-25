@@ -1,5 +1,6 @@
 export interface AlarmListViewModel {
     id: number;
+    statinName: string;
     alarmType: string;
     alarmCode: string;
     description: string;

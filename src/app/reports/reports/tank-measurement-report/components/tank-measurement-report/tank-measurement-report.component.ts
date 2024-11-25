@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReportService } from '../../../../services/report.service';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { TankMeasurementConsts } from '../../consts/tank-measurement-report.const';
 import { Subscription, switchMap } from 'rxjs';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -14,7 +14,7 @@ import { DataTableComponent } from "../../../../../app-reusables/elements/data-t
   imports: [DataTableComponent],
   templateUrl: './tank-measurement-report.component.html',
   styleUrl: './tank-measurement-report.component.scss',
-  providers: [DecimalPipe]
+  providers: [DecimalPipe, DatePipe]
 })
 export class TankMeasurementReportComponent {
   private reportService = inject(ReportService);
