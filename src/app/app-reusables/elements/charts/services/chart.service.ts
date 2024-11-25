@@ -24,7 +24,8 @@ export class ChartService {
     displayY: Signal<boolean>,
     pointRadius: Signal<number>,
     lineTension: Signal<number>,
-    lineWidth: Signal<number>
+    lineWidth: Signal<number>,
+    yType?: Signal<any>
   ): Signal<ChartConfiguration['options']> {
     return computed(() => {
       return {
@@ -40,7 +41,8 @@ export class ChartService {
             display: displayX()
           },
           y: {
-            display: displayY()
+            display: displayY(),
+            type: yType ? yType() : 'linear'
           }
         },
         elements: {

@@ -20,6 +20,11 @@ export class DashboardService {
   get dailyFuelAvailabilityLoading(): Signal<boolean> {
     return computed(() => this.dailyFuelAvailabilityLoading$())
   }
+
+  private alarmTypesLoading$ = signal(false);
+  get alarmTypesLoading(): Signal<boolean> {
+    return computed(() => this.alarmTypesLoading$())
+  }
   getFuelAvailabilityChart(groupBy: string, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
@@ -45,6 +50,15 @@ export class DashboardService {
     params = params.append('endDate', dateFilter.endDate.toISOString());
     return this.http.get<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelVolume', {params}).pipe(
       finalize(() => this.dailyFuelAvailabilityLoading$.set(false))
+    )
+  }
+  getAlarmTypesCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+    this.alarmTypesLoading$.set(true);
+    var params = new HttpParams();
+    params = params.append('startDate', dateFilter.startDate.toISOString());
+    params = params.append('endDate', dateFilter.endDate.toISOString());
+    return this.http.get<ChartApiResponse>(this.apiUrl + '/alarmTypesChart', {params}).pipe(
+      finalize(() => this.alarmTypesLoading$.set(false))
     )
   }
 }

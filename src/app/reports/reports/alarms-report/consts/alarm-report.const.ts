@@ -9,6 +9,7 @@ export class AlarmReportConsts {
     private static lastWeekDate = new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
     static columns: DataTableColumnDef[] = [
         {name: '#', property: 'id', isSort: true},
+        {name: 'Station', property: 'stationName', isSort: true},
         {name: 'Type', property: 'alarmType', isSort: true},
         {name: 'Code', property: 'alarmCode', isSort: true},
         {name: 'Description', property: 'description', isSort: true},

@@ -10,6 +10,7 @@ export class TankMeasurementConsts {
     private static lastWeekDate = new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
     static columns: DataTableColumnDef[] = [
         {name: 'Name', property: 'groupingName', isSort: true},
+        {name: 'Date', property: 'date', isSort: true, pipe: DatePipe, pipeArgs: 'MMM dd,yyyy HH:mm:ss'},
         {name: 'Fuel Level', property: 'fuelLevel', isSort: true, pipe: DecimalPipe},
         {name: 'Fuel Volume', property: 'fuelVolume', isSort: true, pipe: DecimalPipe},
         {name: 'Water Level', property: 'waterLevel', isSort: true, pipe: DecimalPipe},
@@ -33,12 +34,6 @@ export class TankMeasurementConsts {
                 controlName2: 'endDate', isMandatory: false,
             },
             {
-                type: 'select', controlName: 'cities',
-                isMulti: true, data$: inject(GenericService).getCities(),
-                isLoading: inject(GenericService).loadingCities,
-                label: 'City'
-            },
-            {
                 type: 'select', controlName: 'timeGroup',
                 isMulti: false, data$: of(['Yearly', 'Monthly', 'Daily', 'Hourly']),
                 label: 'Time Group'
@@ -47,6 +42,12 @@ export class TankMeasurementConsts {
                 type: 'select', controlName: 'groupBy',
                 isMulti: false, data$: of(['City', 'Station', 'Tank']),
                 label: 'Group By'
+            },
+            {
+                type: 'select', controlName: 'cities',
+                isMulti: true, data$: inject(GenericService).getCities(),
+                isLoading: inject(GenericService).loadingCities,
+                label: 'City'
             },
             {
                 type: 'select', controlName: 'stationGuids',
@@ -58,7 +59,7 @@ export class TankMeasurementConsts {
                 type: 'select', controlName: 'tankGuids',
                 isMulti: true, data$: inject(GenericService).getTanks(),
                 isLoading: inject(GenericService).loadingTanks,
-                label: 'Station', valueProperty: 'guid', displayProperty: 'stationName'
+                label: 'Tanks', valueProperty: 'guid', displayProperty: 'tankName'
             }
         ]
     }

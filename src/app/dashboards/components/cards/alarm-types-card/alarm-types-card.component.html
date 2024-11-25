@@ -1,0 +1,33 @@
+<app-dashboard-card-layout>
+    <div class="dashboard-card-content">
+        <div class="card-content">
+            <div class="text-area">
+                <div class="ledger-area">
+                    <div class="value">
+                        {{reportChart().cardValue?.boldValue}}
+                    </div>
+                    <div class="details">
+                        @if(reportChart().cardValue?.icon) {
+                        <mat-icon [ngStyle]="{'color': reportChart().cardValue?.icon?.color}">
+                            {{reportChart().cardValue?.icon?.text}}
+                        </mat-icon>
+                        }
+                        <span class="text">
+                            {{reportChart().cardValue?.lightValue}}
+                        </span>
+                    </div>
+                </div>
+                <div class="title-area">
+                    {{reportChart().cardValue?.boldValueTitle}}
+                </div>
+            </div>
+            <div class="chart-content">
+                <app-chart [chartType]="'bar'"
+                    [datasets]="reportChart().datasets" [labels]="reportChart().labels"
+                    [displayLegend]="false" [displayX]="false" [displayY]="false" yType="logarithmic"
+                    [loading]="loading()">
+                </app-chart>
+            </div>
+        </div>
+    </div>
+</app-dashboard-card-layout>

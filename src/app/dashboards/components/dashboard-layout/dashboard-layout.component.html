@@ -34,8 +34,10 @@
         }
     </mat-grid-tile>
     <mat-grid-tile>
-        <app-dashboard-card-layout>
-
-        </app-dashboard-card-layout>
+        @defer(on viewport) {
+            <app-alarm-types-card [dateFilter]="dateFilter()"/>
+        } @placeholder {
+            <div>Loading Component</div>
+        }
     </mat-grid-tile>
 </mat-grid-list>

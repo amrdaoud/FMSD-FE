@@ -27,7 +27,7 @@ export class ChartComponent {
   lineTension = input<number>(0.2);
   lineWidth = input<number>(2);
   loading = input<boolean>(false);
-
+  yType = input<any>('linear')
   clickedChartObject = model<{serie?: string, label?: string}>();
 
   chartHeightPercent = input<number>(100);
@@ -41,7 +41,8 @@ export class ChartComponent {
     this.displayY,
     this.pointRadius,
     this.lineTension,
-    this.lineWidth
+    this.lineWidth,
+    this.yType
   )
 
   chartClicked({

@@ -6,17 +6,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DeviceService } from '../../../app-reusables/services/device.service';
-import { DashboardCardLayoutComponent } from "../dashboard-card-layout/dashboard-card-layout.component";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FuelAvailabilityChartReportComponent } from "../cards/fuel-availability-chart-report/fuel-availability-chart-report.component";
 import { DailyFuelAvailabilityCardComponent } from "../cards/daily-fuel-availability-card/daily-fuel-availability-card.component";
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, Observable } from 'rxjs';
 import { DashboardDateFilterModel } from '../../models/dashboard';
+import { AlarmTypesCardComponent } from "../cards/alarm-types-card/alarm-types-card.component";
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [DatePipe, MatButtonModule, MatGridListModule, DashboardCardLayoutComponent, MatButtonToggleModule, FuelAvailabilityChartReportComponent, DailyFuelAvailabilityCardComponent],
+  imports: [DatePipe, MatButtonModule, MatGridListModule, MatButtonToggleModule, FuelAvailabilityChartReportComponent, DailyFuelAvailabilityCardComponent, AlarmTypesCardComponent],
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss'
 })
@@ -26,7 +26,7 @@ export class DashboardLayoutComponent {
 
 
 
-  private currentDate = new Date();
+  private currentDate = new Date(2024, 9, 7);
   dateForm = new FormGroup({
     startDate: new FormControl(new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000), Validators.required),
     endDate: new FormControl(this.currentDate, Validators.required),
