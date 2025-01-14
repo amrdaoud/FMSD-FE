@@ -4,6 +4,7 @@ import { SimpleLoaderComponent } from "../../../loaders/simple-loader/simple-loa
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartService } from '../../services/chart.service';
 import { NgStyle } from '@angular/common';
+import { chartColors } from '../../consts/chart.const';
 
 @Component({
   selector: 'app-chart',
@@ -14,7 +15,7 @@ import { NgStyle } from '@angular/common';
 })
 export class ChartComponent {
   private chartService = inject(ChartService)
-
+  colors = chartColors;
   datasets = input.required<ChartConfiguration['data']['datasets']>();
   labels = input.required<ChartConfiguration['data']['labels']>();
   chartType = input<ChartConfiguration['type']>('line');
@@ -27,7 +28,8 @@ export class ChartComponent {
   lineTension = input<number>(0.2);
   lineWidth = input<number>(2);
   loading = input<boolean>(false);
-  yType = input<any>('linear')
+  yType = input<any>('linear');
+  stacked = input<boolean>(false);
   clickedChartObject = model<{serie?: string, label?: string}>();
 
   chartHeightPercent = input<number>(100);
@@ -42,7 +44,8 @@ export class ChartComponent {
     this.pointRadius,
     this.lineTension,
     this.lineWidth,
-    this.yType
+    this.yType,
+    this.stacked
   )
 
   chartClicked({

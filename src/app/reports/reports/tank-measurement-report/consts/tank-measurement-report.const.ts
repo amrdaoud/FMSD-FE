@@ -33,16 +33,16 @@ export class TankMeasurementConsts {
                 type: 'twoDates', controlName: 'startDate',
                 controlName2: 'endDate', isMandatory: false,
             },
-            {
-                type: 'select', controlName: 'timeGroup',
-                isMulti: false, data$: of(['Yearly', 'Monthly', 'Daily', 'Hourly']),
-                label: 'Time Group'
-            },
-            {
-                type: 'select', controlName: 'groupBy',
-                isMulti: false, data$: of(['City', 'Station', 'Tank']),
-                label: 'Group By'
-            },
+            // {
+            //     type: 'select', controlName: 'timeGroup',
+            //     isMulti: false, data$: of(['Yearly', 'Monthly', 'Daily', 'Hourly']),
+            //     label: 'Time Group'
+            // },
+            // {
+            //     type: 'select', controlName: 'groupBy',
+            //     isMulti: false, data$: of(['City', 'Station', 'Tank']),
+            //     label: 'Group By'
+            // },
             {
                 type: 'select', controlName: 'cities',
                 isMulti: true, data$: inject(GenericService).getCities(),

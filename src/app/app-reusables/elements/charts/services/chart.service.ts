@@ -1,11 +1,18 @@
 import { computed, Injectable, Signal } from '@angular/core';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration,Chart, registerables } from 'chart.js';
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService {
 
-  constructor() { }
+  constructor() {
+    Chart.register(...registerables);
+    // Chart.defaults.backgroundColor = '#81d4fa'; // Bar fill color
+    // Chart.defaults.borderColor = '#0288d1'; // Border color
+    Chart.defaults.color = '#212121'; // Text color
+    Chart.defaults.font.family = 'Arial, sans-serif'; // Custom font
+    Chart.defaults.plugins.legend.labels.color = '#4e342e'; // Legend text color
+  }
   createChartData(
     datasets: Signal<ChartConfiguration['data']['datasets']>,
     labels: Signal<ChartConfiguration['data']['labels']>): Signal<ChartConfiguration['data']> {
@@ -25,7 +32,8 @@ export class ChartService {
     pointRadius: Signal<number>,
     lineTension: Signal<number>,
     lineWidth: Signal<number>,
-    yType?: Signal<any>
+    yType?: Signal<any>,
+    stacked?: Signal<boolean>
   ): Signal<ChartConfiguration['options']> {
     return computed(() => {
       return {
@@ -34,6 +42,7 @@ export class ChartService {
         plugins: {
           legend: {
             display: displayLegend(),
+            position: 'bottom'
           },
         },
         scales: {
@@ -42,7 +51,8 @@ export class ChartService {
           },
           y: {
             display: displayY(),
-            type: yType ? yType() : 'linear'
+            type: yType ? yType() : 'linear',
+            stacked: stacked ? stacked() : false
           }
         },
         elements: {
