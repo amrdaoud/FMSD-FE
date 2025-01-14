@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { ReportService } from '../../../../services/report.service';
+import { ReportService } from '../../../services/report.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { TankMeasurementConsts } from '../../consts/tank-measurement-report.const';
+import { TankMeasurementConsts } from '../consts/tank-measurement-report.const';
 import { Subscription, switchMap } from 'rxjs';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { TankMeasurementListViewModel } from '../../models/tank-measurement-list-view-model';
-import { MYDOWNLOAD } from '../../../../../app-reusables/consts/download.const';
-import { DataTableComponent } from "../../../../../app-reusables/elements/data-table/components/data-table/data-table.component";
+import { TankMeasurementListViewModel } from '../models/tank-measurement-list-view-model';
+import { MYDOWNLOAD } from '../../../../app-reusables/consts/download.const';
+import { DataTableComponent } from "../../../../app-reusables/elements/data-table/components/data-table/data-table.component";
 
 @Component({
   selector: 'app-tank-measurement-report',

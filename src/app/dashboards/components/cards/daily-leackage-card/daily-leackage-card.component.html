@@ -1,0 +1,62 @@
+<app-dashboard-card-layout>
+    <div class="dashboard-card-header">
+        <div class="dashboard-card-title-subtitle">
+            <div class="dashboard-card-title">
+                Cummulitive Leackage
+            </div>
+            <div class="dashboard-card-subtitle">
+                Detect continuous leakages across cities, stations, and tanks.
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-card-info">
+        @for (item of reportChart().values; track $index) {
+            <div class="value-container">
+                <div class="text">
+                    {{item.name}}
+                </div>
+                <div class="value">
+                    {{item.value}}
+                </div>
+            </div>
+            }
+    <span class="full-spacer"></span>
+        <!-- @if (drillParameter().length > 1) {
+            <button mat-button (click)="rollUp()">
+                <mat-icon>reply</mat-icon>
+                {{drillParameter()[drillParameter().length - 1].label}}
+            </button>
+        } -->
+    
+</div>
+    <div class="dashboard-card-content">
+        <div class="card-content">
+            <div class="text-area">
+                <div class="ledger-area">
+                    <div class="value">
+                        {{reportChart().cardValue?.boldValue}}
+                    </div>
+                    <div class="details">
+                        @if(reportChart().cardValue?.icon) {
+                        <mat-icon [ngStyle]="{'color': reportChart().cardValue?.icon?.color}">
+                            {{reportChart().cardValue?.icon?.text}}
+                        </mat-icon>
+                        }
+                        <span class="text">
+                            {{reportChart().cardValue?.lightValue}}
+                        </span>
+                    </div>
+                </div>
+                <div class="title-area">
+                    {{reportChart().cardValue?.boldValueTitle}}
+                </div>
+            </div>
+            <div class="chart-content">
+                <app-chart [chartType]="'line'" [datasets]="reportChart().datasets" [labels]="reportChart().labels"
+                    [displayLegend]="true" [displayX]="false" [displayY]="true" [pointRadius]="3"
+                    [loading]="loading()">
+                </app-chart>
+            </div>
+        </div>
+    </div>
+</app-dashboard-card-layout>

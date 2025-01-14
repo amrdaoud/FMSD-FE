@@ -30,6 +30,7 @@
         </div>
         <table mat-table [dataSource]="dataSource()" matSort [matSortActive]="requestObject().sortActive"
             matSortDisableClear [matSortDirection]="requestObject().sortDirection" matSortStart="desc">
+            
             @for (column of columns(); track column.property) {
             <ng-container [matColumnDef]="column.property">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!column.isSort">

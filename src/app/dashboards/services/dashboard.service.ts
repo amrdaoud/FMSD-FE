@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 })
 export class DashboardService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}Dashboard`;
+  private apiUrl = `${environment.apiUrl}Dashboards`;
 
   private fuelAvailabilityLoading$ = signal(false);
   get fuelAvailabilityLoading(): Signal<boolean> {
@@ -25,6 +25,12 @@ export class DashboardService {
   get alarmTypesLoading(): Signal<boolean> {
     return computed(() => this.alarmTypesLoading$())
   }
+
+  private dailyLeackageLoading$ = signal(false);
+  get dailyLeackageLoading(): Signal<boolean> {
+    return computed(() => this.dailyLeackageLoading$())
+  }
+
   getFuelAvailabilityChart(groupBy: string, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
@@ -59,6 +65,17 @@ export class DashboardService {
     params = params.append('endDate', dateFilter.endDate.toISOString());
     return this.http.get<ChartApiResponse>(this.apiUrl + '/alarmTypesChart', {params}).pipe(
       finalize(() => this.alarmTypesLoading$.set(false))
+    )
+  }
+
+  getDailyLeackage(name: string, dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+    this.dailyLeackageLoading$.set(true);
+    var params = new HttpParams();
+    params = params.append('startDate', dateFilter.startDate.toISOString());
+    params = params.append('endDate', dateFilter.endDate.toISOString());
+    if(name) params = params.append('name', name);
+    return this.http.get<ChartApiResponse>(this.apiUrl + '/DailyLeackageChart', {params}).pipe(
+      finalize(() => this.dailyLeackageLoading$.set(false))
     )
   }
 }
