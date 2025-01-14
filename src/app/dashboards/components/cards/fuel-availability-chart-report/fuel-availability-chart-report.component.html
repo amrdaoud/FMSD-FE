@@ -1,0 +1,52 @@
+<app-dashboard-card-layout>
+    <div class="dashboard-card-header">
+        <div class="dashboard-card-title-subtitle">
+            <div class="dashboard-card-title">
+                Fuel Availability
+            </div>
+            <div class="dashboard-card-subtitle">
+                Total fuel availability over strategic stations (click to drill down)
+            </div>
+        </div>
+        <mat-button-toggle-group [value]="selectedOption()" (valueChange)="selectedOption.set($event)">
+            @for (item of options; track $index) {
+            <mat-button-toggle [value]="$index">{{item}}</mat-button-toggle>
+            }
+        </mat-button-toggle-group>
+    </div>
+    <div class="dashboard-card-info">
+            @for (item of chartReport().values; track $index) {
+                <div class="value-container">
+                    <div class="text">
+                        {{item.name}}
+                    </div>
+                    <div class="value">
+                        {{item.value}}
+                    </div>
+                </div>
+                }
+        <span class="full-spacer"></span>
+            @if (drillParameter().length > 1) {
+                <button mat-button (click)="rollUp()">
+                    <mat-icon>reply</mat-icon>
+                    {{drillParameter()[drillParameter().length - 1].label}}
+                </button>
+            }
+        
+    </div>
+    
+    <div class="dashboard-card-content">
+            <div class="chart-content">
+            <app-chart
+            [datasets]="selectedOption() === 0 ? chartReport().datasets : chartReportTcv().datasets"
+            [labels]="selectedOption() === 0 ? chartReport().labels : chartReportTcv().labels"
+            [chartType]="'bar'"
+            [loading]="loadingChart()"
+            [chartHeightPercent]="99"
+            [stacked]="true"
+            (clickedChartObjectChange)="pushParameter($event)">
+            </app-chart>
+        </div>
+    </div>
+   
+</app-dashboard-card-layout>

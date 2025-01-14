@@ -1,0 +1,119 @@
+<mat-card class="data-table-card">
+    <mat-card-header>
+        <mat-card-title>
+            {{title()}}
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{subtitle()}}
+        </mat-card-subtitle>
+        <span class="full-spacer"></span>
+        <div class="data-table-fitler-container">
+            <mat-form-field class="no-bottom" appearance="outline" subscriptSizing="dynamic">
+                <mat-icon svgIcon="search-icon"  matPrefix></mat-icon>
+                <input matInput [formControl]="searchControl">
+            </mat-form-field>
+            @if (
+                filters() && filters().length > 0
+            ) {
+                <button type="button" mat-icon-button class="filter-menu-btn" [mat-menu-trigger-for]="filterMenu">
+                    <mat-icon svgIcon="filter-icon"></mat-icon>
+                </button>
+            }
+        </div>
+    </mat-card-header>
+    <mat-card-content class="data-table-card-content">
+        <div class="data-table-progress-bar">
+            @if (loading()) {
+                <mat-progress-bar mode="query"></mat-progress-bar>
+            }
+            
+        </div>
+        <table mat-table [dataSource]="dataSource()" matSort [matSortActive]="requestObject().sortActive"
+            matSortDisableClear [matSortDirection]="requestObject().sortDirection" matSortStart="desc">
+            
+            @for (column of columns(); track column.property) {
+            <ng-container [matColumnDef]="column.property">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!column.isSort">
+                    {{column.name}}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <span [appHighlighter]="column.highlights" [value]="element[column.property]">
+                        {{element[column.property] | dynamic:column.pipe:column.pipeArgs }}
+                    </span>
+
+                </td>
+            </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="displayColumns(); sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumns();"></tr>
+
+        </table>
+    </mat-card-content>
+    <mat-card-actions align="end" style="padding:5px;">
+        <!-- <button type="button"  mat-button *ngIf="!selection.isEmpty()" [mat-menu-trigger-for]="selectMenu">Selected ({{selection.selected.length}})<mat-icon>arrow_drop_down</mat-icon></button>
+        <span class="full-spacer"></span> -->
+        <mat-paginator class="data-table-paginator" class="data-table-paginator" [pageSizeOptions]="[10, 30, 50, 100]"
+            [length]="dataSize()" [pageSize]="pageSize()"></mat-paginator>
+    </mat-card-actions>
+</mat-card>
+
+
+
+<mat-menu #filterMenu="matMenu" class="data-table-filter-menu">
+    <form [formGroup]="filterForm()" (click)="$event.stopPropagation()" class="data-table-filter-form">
+        @for (filter of filters(); track $index) {
+            @switch (filter.type) {
+                @case ('select') {
+                    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic" >
+                        <mat-label>{{filter.label}}</mat-label>
+                        <mat-select [formControlName]="filter.controlName"
+                            [placeholder]="filter.placeHolder ?? '' + ((filter.isLoading && filter.isLoading!()) ? ' (loading..)' : '')"
+                            [multiple]="filter.isMulti">
+                            @if(!filter.isMulti) {
+                                <mat-option [value]="">
+                                    Any
+                                </mat-option>
+                            }
+                            @for (option of (filter.data$ | async); track $index) {
+                                <mat-option [value]="filter.valueProperty ? option[filter.valueProperty!] : option">
+                                    {{filter.displayProperty ? option[filter.displayProperty!] : option}}
+                                </mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                }
+                @default {
+                    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate [formControlName]="filter.controlName" [placeholder]="filter.placeHolder ?? 'Start Date'">
+                            <input matEndDate [formControlName]="filter.controlName2!" [placeholder]="filter.placeHolder2 ?? 'End Date'">
+                        </mat-date-range-input>
+                        <mat-icon matPrefix matDatepickerToggleIcon
+                            svgIcon="calendar-icon"></mat-icon>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker">
+                            <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                }
+            }
+        }
+    </form>
+    <div class="download-btn-container" (click)="$event.stopPropagation()">
+        @if (!loadingDownload()) {
+            <button class="download-btn" mat-raised-button type="button"
+            [disabled]="filterForm().invalid" (click)="requestDownload()">
+               <mat-icon>download</mat-icon>
+               Download Data
+           </button>
+        } @else {
+            <div>
+                Preparing Data..
+            </div>
+            <mat-progress-bar mode="query"></mat-progress-bar>
+        }
+        
+
+    </div>
+    
+</mat-menu>

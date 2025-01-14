@@ -1,0 +1,58 @@
+.main-toolbar-content {
+    display: flex;
+    justify-content: space-between;
+    width:100%;
+}
+.header-menu {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.menu-item {
+    display: flex;
+    cursor: pointer;
+    gap:5px;
+    align-items: center;
+    .mat-icon {
+        width:20px;
+        height:20px;
+        font-size: 20px;
+    }
+    position: relative
+}
+.menu-item:hover, .menu-item.selected {
+    color: #5b47fb;
+}
+.menu-item.selected::before {
+    top: auto;
+    right: 0;
+    height: 2px;
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 0px;
+    width: auto;
+    background-color: #5b47fb;
+    border-radius: 3px;
+}
+.main-toolbar-title {
+    font-weight: 600;
+    color: #370ddb;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.header-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.avatar {
+    width:28px;
+    height:28px;
+    border-radius: 50%;
+    
+}

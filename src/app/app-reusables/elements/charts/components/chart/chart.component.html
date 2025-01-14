@@ -1,0 +1,12 @@
+<div class="chart-area" [ngStyle]="{'height': chartHeightPercent() + '%'}">
+    @if (loading()) {
+        <app-simple-loader></app-simple-loader>
+    }
+    <canvas
+        baseChart 
+        [data]="chartData()"
+        [type]="chartType()"
+        [options]="chartOptions()"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+</div>

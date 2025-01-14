@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+@use '../m3-theme.scss';
+@include mat.core();
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+:root {
+  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include mat.form-field-density(-3);
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
+
+//Offline Materila Icons
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+//App Styles
+.container {
+  padding-top: 30px;
+  padding-left:15px;
+  padding-right:15px;
+}
+.xlarge .container {
+  padding-left: 300px;
+  padding-right: 300px;
+}
+.dashboard-container {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.xlarge .main-toolbar  {
+  padding-left: 300px;
+  padding-right: 300px;
+}
+.main-toolbar {
+  background-color: #fff !important;
+  box-shadow: 0 0 30px rgba(28, 39, 60, 0.08);
+  border-bottom: 1px solid rgba(28, 39, 60, 0.12);
+}
+
+.full-spacer {
+  flex: 1 1 auto;
+}
+
+
+.data-table-filter-menu.mat-mdc-menu-panel {
+  max-width: unset !important;
+  overflow-x: hidden;
+}

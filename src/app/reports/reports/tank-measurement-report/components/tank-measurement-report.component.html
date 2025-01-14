@@ -1,0 +1,17 @@
+<app-data-table
+[title]="'Tank Measurement Report'"
+[subtitle]="'This report show the measures on strategic stations'"
+[columns]="columns"
+[filters]="filters"
+[data]="dataWithSize()!.data"
+[dataSize]="dataWithSize()!.dataSize"
+sortActive="fuelLevel"
+sortDirection="asc"
+[loading]="loading()"
+[loadingDownload]="loadingDownload() > 0"
+(downloadRequested)="downloadData()"
+
+[(requestObject)]="initialFilters"
+
+></app-data-table>
+
