@@ -21,10 +21,10 @@
     <mat-grid-tile rowspan="2" [colspan]="2">
         @defer (on viewport) {
             <app-fuel-availability-chart-report/>
-        } @placeholder { 
+        } @placeholder {
             <div>Loading Component</div>
         }
-            
+
     </mat-grid-tile>
     <mat-grid-tile>
         @defer(on viewport) {
@@ -47,4 +47,13 @@
             <div>Loading Component</div>
         }
     </mat-grid-tile>
+
+    <mat-grid-tile colspan="2" rowspan="2">
+      @defer(on viewport) {
+          <app-suppliers-performance-card [dateFilter]="dateFilter()"/>
+      } @placeholder {
+          <div>Loading Component</div>
+      }
+  </mat-grid-tile>
+
 </mat-grid-list>
