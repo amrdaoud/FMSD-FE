@@ -1,0 +1,27 @@
+<app-dashboard-card-layout>
+  <div class="dashboard-card-header">
+      <div class="dashboard-card-title-subtitle">
+          <div class="dashboard-card-title">
+            Suppliers Performance
+          </div>
+          <div class="dashboard-card-subtitle">
+          </div>
+      </div>
+
+  </div>
+
+  <div class="dashboard-card-content">
+          <div class="chart-content">
+          <app-chart
+          [datasets]=" reportChart().datasets"
+          [labels]="reportChart().labels"
+          [chartType]="'bar'"
+          [loading]="loading()"
+          [chartHeightPercent]="99"
+          [stacked]="true"
+          >
+          </app-chart>
+      </div>
+  </div>
+
+</app-dashboard-card-layout>

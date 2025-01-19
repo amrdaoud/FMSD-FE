@@ -14,10 +14,16 @@ import { filter, Observable } from 'rxjs';
 import { DashboardDateFilterModel } from '../../models/dashboard';
 import { AlarmTypesCardComponent } from "../cards/alarm-types-card/alarm-types-card.component";
 import { DailyLeackageCardComponent } from "../cards/daily-leackage-card/daily-leackage-card.component";
+import { SuppliersPerformanceCardComponent } from '../cards/suppliers-performance-card/suppliers-performance-card.component';
+
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [DatePipe, MatButtonModule, MatGridListModule, MatButtonToggleModule, FuelAvailabilityChartReportComponent, DailyFuelAvailabilityCardComponent, AlarmTypesCardComponent, DailyLeackageCardComponent],
+  imports: [DatePipe, MatButtonModule, MatGridListModule,
+     MatButtonToggleModule, FuelAvailabilityChartReportComponent,
+      DailyFuelAvailabilityCardComponent, AlarmTypesCardComponent,
+       DailyLeackageCardComponent,SuppliersPerformanceCardComponent],
+
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss'
 })
