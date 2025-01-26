@@ -31,6 +31,13 @@ export class DashboardService {
     return computed(() => this.dailyLeackageLoading$())
   }
 
+
+  private supplierPerformanceLoading$ = signal(false);
+  get supplierPerformanceLoading(): Signal<boolean> {
+    return computed(() => this.supplierPerformanceLoading$())
+  }
+
+
   getFuelAvailabilityChart(groupBy: string, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
@@ -78,4 +85,20 @@ export class DashboardService {
       finalize(() => this.dailyLeackageLoading$.set(false))
     )
   }
+
+  getSupplierPerformanceCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+    this.supplierPerformanceLoading$.set(true);
+    var params = new HttpParams();
+    params = params.append('startDate', dateFilter.startDate.toISOString());
+    params = params.append('endDate', dateFilter.endDate.toISOString());
+    return this.http.get<ChartApiResponse>(this.apiUrl + '/SuppliersPerformance', {params}).pipe(
+      finalize(() => this.supplierPerformanceLoading$.set(false))
+    )
+  }
+
+
+
+
+
+
 }
