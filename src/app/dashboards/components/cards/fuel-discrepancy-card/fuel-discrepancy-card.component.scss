@@ -1,0 +1,142 @@
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.points-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 60px;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: -28px;
+
+}
+
+.point-label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+
+}
+
+.start-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgb(66, 245, 117);
+  border: 2px solid rgb(66, 245, 117);
+}
+
+.end-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgb(220, 53, 69);
+  border: 2px solid  rgb(220, 53, 69);
+}
+
+.line-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 16px;
+}
+
+.line {
+  height: 2px;
+  background-color: #007bff;
+  width: 100%;
+  position: relative;
+}
+
+.line-label {
+  position: absolute;
+  font-size: 12px;
+  color: #555;
+
+}
+
+.upper-label {
+  top: -30px;
+  display: flex; /* Use flexbox for alignment */
+
+}
+
+.lower-label {
+  bottom: -35px;
+  display: flex; /* Use flexbox for alignment */
+
+}
+
+.lower-label-date {
+  bottom: -50px;
+  width: 100px;
+  margin-left: 30px;
+}
+
+
+@import '../../../../../color-variables.scss';
+:host {
+    width:100%;
+    height:calc(100% - 10px);
+}
+.card-content {
+    display: flex;
+    flex-direction: column;
+    height:100%;
+}
+.chart-content {
+    height:100%;
+}
+.text-area {
+    max-height:40%;
+    padding: 20px 0px 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.ledger-area {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: end;
+
+    .value {
+        font-size: 28px;
+        line-height: 28px;
+        font-weight: 500;
+    }
+    .details {
+        font-size: 14px;
+        display: flex;
+        gap: 5px;
+        .up {
+            color: $success-color;
+        }
+        .down {
+            color: $fail-color;
+        }
+        align-items: center;
+        justify-content: center;
+        .text {
+            color: #7D92B0;
+            line-height: 24px;
+        }
+    }
+}

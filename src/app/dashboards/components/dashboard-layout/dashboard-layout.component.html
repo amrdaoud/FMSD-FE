@@ -56,4 +56,16 @@
       }
   </mat-grid-tile>
 
+
+  <mat-grid-tile colspan="2" rowspan="2">
+    @defer(on viewport) {
+        <app-fuel-discrepancy-card
+        [dateFilter]="dateFilter()"/>
+    } @placeholder {
+        <div>Loading Component</div>
+    }
+</mat-grid-tile>
+
+
+
 </mat-grid-list>

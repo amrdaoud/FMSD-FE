@@ -15,6 +15,7 @@ import { DashboardDateFilterModel } from '../../models/dashboard';
 import { AlarmTypesCardComponent } from "../cards/alarm-types-card/alarm-types-card.component";
 import { DailyLeackageCardComponent } from "../cards/daily-leackage-card/daily-leackage-card.component";
 import { SuppliersPerformanceCardComponent } from '../cards/suppliers-performance-card/suppliers-performance-card.component';
+import { FuelDiscrepancyCardComponent } from '../cards/fuel-discrepancy-card/fuel-discrepancy-card.component';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -22,7 +23,8 @@ import { SuppliersPerformanceCardComponent } from '../cards/suppliers-performanc
   imports: [DatePipe, MatButtonModule, MatGridListModule,
      MatButtonToggleModule, FuelAvailabilityChartReportComponent,
       DailyFuelAvailabilityCardComponent, AlarmTypesCardComponent,
-       DailyLeackageCardComponent,SuppliersPerformanceCardComponent],
+       DailyLeackageCardComponent,SuppliersPerformanceCardComponent,
+       FuelDiscrepancyCardComponent],
 
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss'
