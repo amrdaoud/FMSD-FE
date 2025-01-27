@@ -1,0 +1,71 @@
+<app-dashboard-card-layout>
+  <div class="dashboard-card-header">
+      <div class="dashboard-card-title-subtitle">
+          <div class="dashboard-card-title">
+            Fuel Volume discrepancy
+          </div>
+          <div class="dashboard-card-subtitle">
+            Compare between starting and ending volume with all operations applied
+          </div>
+      </div>
+
+  </div>
+
+  <div class="dashboard-card-content">
+          <div class="chart-content">
+            <div class="points-container">
+              <!-- Start Point -->
+              <div class="point">
+                <div class="point-label">{{ report()?.startingVolume | number : '1.0-0'  }} L</div>
+                <div class="start-circle"></div>
+                <div class="line-label lower-label-date">{{ dateFilter().startDate | date:'yyyy-MM-dd' }}</div>
+
+              </div>
+
+              <!-- Line -->
+              <div class="line-container">
+                <div class="line"></div>
+                <div class="line-label upper-label">
+                  Distributing
+                  <mat-icon style="color: #EA3323;">
+                    north
+                  </mat-icon>&nbsp;
+                  {{ report()?.distributionTotalMeasuredAmount | number : '1.0-0'  }}
+                </div>
+
+                <div class="line-label lower-label">
+                  &nbsp; &nbsp;&nbsp;&nbsp;Filling&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <mat-icon style="color: #75FB4C;">
+                    south
+                 </mat-icon>&nbsp;
+                 {{ report()?.fillmentTotalMeasuredAmount | number : '1.0-0'  }}
+               </div>
+              </div>
+
+              <!-- End Point -->
+              <div class="point">
+                <div class="point-label">{{ report()?.endingVolume | number : '1.0-0' }} L</div>
+                <div class="end-circle"></div>
+                <div class="line-label lower-label-date">{{ dateFilter().endDate | date:'yyyy-MM-dd' }}</div>
+
+              </div>
+
+            </div>
+
+            <div class="line-container" style="display: flex; flex-direction: row;">
+              <mat-icon style="color: rgb(220, 53, 69);margin: 5px;">report</mat-icon>
+               <span>
+                Operations Vs. current measurement discrepancy :
+                {{totalDisrepancy() | number : '1.0-0'}} L
+              </span>
+            </div>
+
+          </div>
+
+          <div>
+
+      </div>
+
+  </div>
+
+</app-dashboard-card-layout>

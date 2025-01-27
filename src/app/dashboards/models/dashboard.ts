@@ -21,3 +21,16 @@ export interface IconModel {
     text: string;
     color: string;
 }
+
+export interface UnjustifiedDiscrepanciesInFuelVolumeResult
+{
+  startingVolume : number;
+  endingVolume : number;
+  fillmentTotalDispensedAmount : number;
+  fillmentTotalMeasuredAmount : number;
+  distributionTotalDispensedAmount : number;
+  distributionTotalMeasuredAmount : number;
+  diffrentFillmentDistributionDispensedAmount : number;
+  diffrentFillmentDistributionMeasuredAmount : number;
+
+}
