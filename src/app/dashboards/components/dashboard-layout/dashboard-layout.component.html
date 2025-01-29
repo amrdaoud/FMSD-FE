@@ -66,6 +66,14 @@
     }
 </mat-grid-tile>
 
+<mat-grid-tile colspan="2" rowspan="2">
+  @defer(on viewport) {
+      <app-city-expected-fule
+      [dateFilter]="dateFilter()"/>
+  } @placeholder {
+      <div>Loading Component</div>
+  }
+</mat-grid-tile>
 
 
 </mat-grid-list>

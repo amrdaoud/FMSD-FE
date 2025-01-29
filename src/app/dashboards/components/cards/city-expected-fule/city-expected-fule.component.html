@@ -1,0 +1,50 @@
+<app-dashboard-card-layout>
+  <div class="dashboard-card-header">
+      <div class="dashboard-card-title-subtitle">
+          <div class="dashboard-card-title">
+            Days of fuel availability
+          </div>
+          <div class="dashboard-card-subtitle">
+            How many days each city can provide fuel based on historical data
+          </div>
+      </div>
+
+  </div>
+
+  <div class="dashboard-card-content">
+          <div class="chart-content">
+            <mat-list role="list" class="scrollable-list">
+              @for (item of report(); track $index)
+              {
+                <mat-list-item role="listitem" class="custom-list-item">
+                  <div class="list-content">
+                    <div style="display: flex; flex-direction: column;">
+                      <h5>{{item.name}}</h5>
+                      <mat-progress-bar class="progress-bar-custom"
+                      color="primary"
+                      mode="determinate" value="{{item.currentAvailablePercentage}}">
+                    </mat-progress-bar>
+                     <div style="font-size: 12px; font-weight: bold;"> {{item.currentAvailablePercentage | number:'1.0-2'}} %</div>
+                    </div>
+                    <div class="list-stats">
+                      <h6 class="tx-primary">Available days : {{item.availableDays| number:'1.0-2'}}</h6>
+                      <h6>Current volume : {{item.currentAvailableVolume| number: '1.0-0'}} L</h6>
+                    </div>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              }
+
+            </mat-list>
+
+
+
+          </div>
+
+          <div>
+
+      </div>
+
+  </div>
+
+</app-dashboard-card-layout>
