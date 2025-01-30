@@ -34,3 +34,14 @@ export interface UnjustifiedDiscrepanciesInFuelVolumeResult
   diffrentFillmentDistributionMeasuredAmount : number;
 
 }
+
+export interface CityExpectedToProvideFuelResult
+{
+  gUID? : string;
+  name? : string;
+  currentAvailableVolume? : number;
+  currentAvailablePercentage? : number;
+  dailyAverageConsuming? : number;
+  availableDays? : number;
+}
+

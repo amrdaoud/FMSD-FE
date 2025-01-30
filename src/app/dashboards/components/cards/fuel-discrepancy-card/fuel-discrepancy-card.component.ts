@@ -20,7 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 export class FuelDiscrepancyCardComponent {
 
  private dashboardService = inject(DashboardService);
-  loading = this.dashboardService.supplierPerformanceLoading;
+  loading = this.dashboardService.fuelVolumeDiscrepancyLoading;
   dateFilter = input.required<DashboardDateFilterModel>();
 
    report =

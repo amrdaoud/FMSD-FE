@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ChartApiResponse, DashboardDateFilterModel, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
+import { ChartApiResponse, CityExpectedToProvideFuelResult, DashboardDateFilterModel, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -40,6 +40,11 @@ export class DashboardService {
   private fuelVolumeDiscrepancyLoading$ = signal(false);
   get fuelVolumeDiscrepancyLoading(): Signal<boolean> {
     return computed(() => this.fuelVolumeDiscrepancyLoading$())
+  }
+
+  private daysOfAvailabilityLoading$ = signal(false);
+  get daysOfAvailabilityLoading(): Signal<boolean> {
+    return computed(() => this.daysOfAvailabilityLoading$())
   }
 
 
@@ -112,6 +117,15 @@ export class DashboardService {
   }
 
 
+  getDaysOfFuelAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<CityExpectedToProvideFuelResult[]> {
+    this.daysOfAvailabilityLoading$.set(true);
+    var params = new HttpParams();
+    params = params.append('startDate', dateFilter.startDate.toISOString());
+    params = params.append('endDate', dateFilter.endDate.toISOString());
+    return this.http.get<CityExpectedToProvideFuelResult[]>(this.apiUrl + '/CityExpectedToProvideFuel', {params}).pipe(
+      finalize(() => this.daysOfAvailabilityLoading$.set(false))
+    )
+  }
 
 
 }
