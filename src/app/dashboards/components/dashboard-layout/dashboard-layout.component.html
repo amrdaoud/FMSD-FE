@@ -12,15 +12,19 @@
             <p>END DATE</p>
             <h5>{{dateForm.value.endDate | date}}</h5>
         </div>
+        <div class="date-control">
+          <p>THRESHOULD</p>
+          <h5>{{dateForm.value.threshould}}</h5>
+      </div>
         <button mat-flat-button (click)="openDateDialog()">
-            Dates
+            Filters
         </button>
     </div>
 </div>
 <mat-grid-list rowHeight="200" [cols]="cols()" gutterSize="20">
     <mat-grid-tile rowspan="2" [colspan]="2">
         @defer (on viewport) {
-            <app-fuel-availability-chart-report/>
+            <app-fuel-availability-chart-report [dateFilter]="dateFilter()"/>
         } @placeholder {
             <div>Loading Component</div>
         }

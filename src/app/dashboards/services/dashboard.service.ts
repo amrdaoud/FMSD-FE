@@ -48,10 +48,15 @@ export class DashboardService {
   }
 
 
-  getFuelAvailabilityChart(groupBy: string, tcv: boolean, name?: string): Observable<ChartApiResponse> {
+  getFuelAvailabilityChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
+    console.log(dateFilter)
     params = params.append('tcv', tcv);
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('threshold', dateFilter.threshould);
+
     if(name) params = params.append('name', name);
     var result: Observable<ChartApiResponse>;
     if(groupBy === 'station') {
@@ -127,5 +132,40 @@ export class DashboardService {
     )
   }
 
+   convert12ToISO(date: Date, time: string): string {
+    // Convert 12-hour time (AM/PM) to 24-hour format
+    const timeParts = time.match(/^(\d+):(\d+)\s?(AM|PM)$/i);
+
+    if (!timeParts) {
+      throw new Error("Invalid time format. Expected format: HH:mm AM/PM");
+    }
+
+    let [_, hours, minutes, period] = timeParts;
+    let hourNum = parseInt(hours, 10);
+
+    if (period.toUpperCase() === "PM" && hourNum !== 12) {
+      hourNum += 12;
+    } else if (period.toUpperCase() === "AM" && hourNum === 12) {
+      hourNum = 0;
+    }
+
+    const formattedTime = `${hourNum.toString().padStart(2, "0")}:${minutes}:00`;
+
+    return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
+  }
+  convertToISO(date: Date, time: string): string {
+    // Validate time format (HH:mm)
+    const timeParts = time.match(/^(\d{1,2}):(\d{2})$/);
+
+    if (!timeParts) {
+      throw new Error("Invalid time format. Expected format: HH:mm (24-hour)");
+    }
+
+    const [_, hours, minutes] = timeParts;
+    const formattedTime = `${hours.padStart(2, "0")}:${minutes}:00`;
+
+    // Construct the full ISO DateTime string
+    return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
+  }
 
 }

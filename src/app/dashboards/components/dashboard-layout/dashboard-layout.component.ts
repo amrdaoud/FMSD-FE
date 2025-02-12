@@ -33,13 +33,16 @@ import { CityExpectedFuleComponent } from '../cards/city-expected-fule/city-expe
 export class DashboardLayoutComponent {
   private dateDialog = inject(MatDialog);
   cols = inject(DeviceService).dashboardCols;
+  private currentDate = new Date();
 
-
-
-  private currentDate = new Date(2024, 9, 7);
   dateForm = new FormGroup({
     startDate: new FormControl(new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000), Validators.required),
     endDate: new FormControl(this.currentDate, Validators.required),
+    threshould: new FormControl(50),
+    startTime  : new FormControl('08:30'),
+    endTime  : new FormControl('08:30'),
+
+
   },{updateOn: 'submit'});
   openDateDialog() {
     this.dateDialog.open(DateDialogComponent, {data: this.dateForm})
@@ -51,7 +54,10 @@ export class DashboardLayoutComponent {
     ) as Observable<DashboardDateFilterModel>,
     {initialValue: {
       startDate: new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000),
-      endDate: this.currentDate
+      endDate: this.currentDate,
+      threshould : 50,
+      startTime : '12:00',
+      endTime : '12:00'
     }}
   )
 }

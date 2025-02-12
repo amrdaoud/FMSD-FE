@@ -5,11 +5,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-date-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule,
+  imports: [ReactiveFormsModule,MatInputModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatButtonModule,
