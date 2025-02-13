@@ -48,10 +48,14 @@ export class DashboardService {
   }
 
 
-  getFuelAvailabilityChart(groupBy: string, tcv: boolean, name?: string): Observable<ChartApiResponse> {
+  getFuelAvailabilityChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
     params = params.append('tcv', tcv);
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     if(name) params = params.append('name', name);
     var result: Observable<ChartApiResponse>;
     if(groupBy === 'station') {
@@ -69,8 +73,10 @@ export class DashboardService {
   getDailyAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
     this.dailyFuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate', dateFilter.startDate.toISOString());
-    params = params.append('endDate', dateFilter.endDate.toISOString());
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     return this.http.get<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelVolume', {params}).pipe(
       finalize(() => this.dailyFuelAvailabilityLoading$.set(false))
     )
@@ -78,8 +84,10 @@ export class DashboardService {
   getAlarmTypesCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
     this.alarmTypesLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate', dateFilter.startDate.toISOString());
-    params = params.append('endDate', dateFilter.endDate.toISOString());
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     return this.http.get<ChartApiResponse>(this.apiUrl + '/alarmTypesChart', {params}).pipe(
       finalize(() => this.alarmTypesLoading$.set(false))
     )
@@ -88,8 +96,10 @@ export class DashboardService {
   getDailyLeackage(name: string, dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
     this.dailyLeackageLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate', dateFilter.startDate.toISOString());
-    params = params.append('endDate', dateFilter.endDate.toISOString());
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     if(name) params = params.append('name', name);
     return this.http.get<ChartApiResponse>(this.apiUrl + '/DailyLeackageChart', {params}).pipe(
       finalize(() => this.dailyLeackageLoading$.set(false))
@@ -99,8 +109,10 @@ export class DashboardService {
   getSupplierPerformanceCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
     this.supplierPerformanceLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate', dateFilter.startDate.toISOString());
-    params = params.append('endDate', dateFilter.endDate.toISOString());
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     return this.http.get<ChartApiResponse>(this.apiUrl + '/SuppliersPerformance', {params}).pipe(
       finalize(() => this.supplierPerformanceLoading$.set(false))
     )
@@ -109,8 +121,10 @@ export class DashboardService {
   getFuelVolumeDiscrepancyCard(dateFilter: DashboardDateFilterModel): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult> {
     this.fuelVolumeDiscrepancyLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate', dateFilter.startDate.toISOString());
-    params = params.append('endDate', dateFilter.endDate.toISOString());
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
       finalize(() => this.fuelVolumeDiscrepancyLoading$.set(false))
     )
@@ -120,12 +134,49 @@ export class DashboardService {
   getDaysOfFuelAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<CityExpectedToProvideFuelResult[]> {
     this.daysOfAvailabilityLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate', dateFilter.startDate.toISOString());
-    params = params.append('endDate', dateFilter.endDate.toISOString());
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshould', dateFilter.threshould);
+
     return this.http.get<CityExpectedToProvideFuelResult[]>(this.apiUrl + '/CityExpectedToProvideFuel', {params}).pipe(
       finalize(() => this.daysOfAvailabilityLoading$.set(false))
     )
   }
 
+   convert12ToISO(date: Date, time: string): string {
+    // Convert 12-hour time (AM/PM) to 24-hour format
+    const timeParts = time.match(/^(\d+):(\d+)\s?(AM|PM)$/i);
+
+    if (!timeParts) {
+      throw new Error("Invalid time format. Expected format: HH:mm AM/PM");
+    }
+
+    let [_, hours, minutes, period] = timeParts;
+    let hourNum = parseInt(hours, 10);
+
+    if (period.toUpperCase() === "PM" && hourNum !== 12) {
+      hourNum += 12;
+    } else if (period.toUpperCase() === "AM" && hourNum === 12) {
+      hourNum = 0;
+    }
+
+    const formattedTime = `${hourNum.toString().padStart(2, "0")}:${minutes}:00`;
+
+    return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
+  }
+  convertToISO(date: Date, time: string): string {
+    // Validate time format (HH:mm)
+    const timeParts = time.match(/^(\d{1,2}):(\d{2})$/);
+
+    if (!timeParts) {
+      throw new Error("Invalid time format. Expected format: HH:mm (24-hour)");
+    }
+
+    const [_, hours, minutes] = timeParts;
+    const formattedTime = `${hours.padStart(2, "0")}:${minutes}:00`;
+
+    // Construct the full ISO DateTime string
+    return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
+  }
 
 }

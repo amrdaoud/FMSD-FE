@@ -1,12 +1,13 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { DashboardCardLayoutComponent } from '../../dashboard-card-layout/dashboard-card-layout.component';
 import { DashboardService } from '../../../services/dashboard.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { combineLatest, switchMap } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ChartComponent } from '../../../../app-reusables/elements/charts/components/chart/chart.component';
+import { DashboardDateFilterModel } from '../../../models/dashboard';
 
 @Component({
   selector: 'app-fuel-availability-chart-report',
@@ -27,6 +28,8 @@ export class FuelAvailabilityChartReportComponent {
   selectedOption = signal<number>(0);
   loadingChart = this.dashboardService.fuelAvailabilityLoading;
   private drillDownGroups = ['city', 'station', 'tank'];
+  dateFilter = input.required<DashboardDateFilterModel>();
+
   drillParameter = signal<
     { index: number; label: string; }[]
   >([{ index: 0, label: ''}]);
@@ -34,25 +37,27 @@ export class FuelAvailabilityChartReportComponent {
     return this.drillParameter()[this.drillParameter().length - 1];
   });
   chartReport = toSignal(
-    toObservable(this.lastDrillParameter).pipe(
-      switchMap((p) => {
+    combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
+      switchMap(([dateFilterValue, lastDrillParamValue]) => {
         return this.dashboardService.getFuelAvailabilityChart(
-          this.drillDownGroups[p.index],
+          this.drillDownGroups[lastDrillParamValue.index],
+          dateFilterValue,
           false,
-          p.label
+          lastDrillParamValue.label
         );
       })
     ),
     { initialValue: { datasets: [], labels: [], values: [] } }
   );
 
-  chartReportTcv = toSignal(
-    toObservable(this.lastDrillParameter).pipe(
-      switchMap((p) => {
+  chartReportTcv =toSignal(
+    combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
+      switchMap(([dateFilterValue, lastDrillParamValue]) => {
         return this.dashboardService.getFuelAvailabilityChart(
-          this.drillDownGroups[p.index],
+          this.drillDownGroups[lastDrillParamValue.index],
+          dateFilterValue,
           true,
-          p.label
+          lastDrillParamValue.label
         );
       })
     ),

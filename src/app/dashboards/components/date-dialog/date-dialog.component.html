@@ -1,25 +1,65 @@
 <mat-card>
     <mat-card-header>
       <mat-card-title>
-        Seletct Dates
       </mat-card-title>
     </mat-card-header>
     <form [formGroup]="dateForm" class="form-container">
-      <div class="date-picker-container">
-      <mat-form-field [subscriptSizing]="'dynamic'" class="date-picker-control">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input formControlName="startDate" matStartDate placeholder="Start date">
-            <input formControlName = "endDate" matEndDate placeholder="End date">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-card>
+        <mat-card-title>Select Date & Time</mat-card-title>
+        <mat-card-content>
+          <div fxLayout="row" fxLayoutGap="20px" class="date-time-container">
+            <!-- Date From Picker -->
+         <mat-form-field appearance="outline" fxFlex="50">
+          <mat-label>From</mat-label>
+          <input matInput [matDatepicker]="datePicker" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+          </mat-form-field>
+         <!-- Time Input -->
+         <mat-form-field appearance="outline" fxFlex="50">
+         <mat-label>Pick a Time</mat-label>
+         <input matInput type="time" formControlName="startTime">
+         </mat-form-field>
+
+          </div>
+        <!--Date to-->
+
+        <div fxLayout="row" fxLayoutGap="20px" class="date-time-container">
+          <!-- Date From Picker -->
+       <mat-form-field appearance="outline" fxFlex="50">
+        <mat-label>To</mat-label>
+        <input matInput [matDatepicker]="datePicker2" formControlName="endDate">
+        <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker2></mat-datepicker>
         </mat-form-field>
-      </div>
+       <!-- Time Input -->
+       <mat-form-field appearance="outline" fxFlex="50">
+       <mat-label>Pick a Time</mat-label>
+       <input matInput type="time" formControlName="endTime">
+       </mat-form-field>
+
+        </div>
+
+        </mat-card-content>
+      </mat-card>
+
+
+      <mat-card>
+        <mat-card-title>Select Threshould</mat-card-title>
+        <mat-card-content>
+          <mat-form-field floatLabel="always" style="width: 100%;">
+            <input matInput formControlName = "threshould" type="number" class="example-right-align" placeholder="50">
+            <span matSuffix>%</span>
+          </mat-form-field>
+        </mat-card-content>
+
+      </mat-card>
+
+
+
       <div class="btn-container">
         <button type="submit" mat-flat-button [mat-dialog-close]="dateForm">Apply</button>
       </div>
       </form>
   </mat-card>
-  
-  
+

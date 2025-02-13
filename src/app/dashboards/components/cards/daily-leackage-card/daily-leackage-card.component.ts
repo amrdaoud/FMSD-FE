@@ -2,7 +2,7 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { DashboardService } from '../../../services/dashboard.service';
 import { DashboardDateFilterModel } from '../../../models/dashboard';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { combineLatest, switchMap } from 'rxjs';
 import { DashboardCardLayoutComponent } from "../../dashboard-card-layout/dashboard-card-layout.component";
 import { MatIconModule } from '@angular/material/icon';
 import { ChartComponent } from '../../../../app-reusables/elements/charts/components/chart/chart.component';
@@ -32,19 +32,20 @@ private lastDrillParameter = computed(() => {
   dateFilter = input.required<DashboardDateFilterModel>();
 
   chartReport = toSignal(
-    toObservable(this.lastDrillParameter).pipe(
-      switchMap((p) => {
+    combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
+      switchMap(([dateFilterValue, lastDrillParamValue]) => {
         return this.dashboardService.getFuelAvailabilityChart(
-          this.drillDownGroups[p.index],
+          this.drillDownGroups[lastDrillParamValue.index],
+          dateFilterValue,
           false,
-          p.label
+          lastDrillParamValue.label
         );
       })
     ),
     { initialValue: { datasets: [], labels: [], values: [] } }
   );
 
-  reportChart = 
+  reportChart =
   toSignal(
     toObservable(this.dateFilter).pipe(
       switchMap(p => this.dashboardService.getDailyLeackage('',

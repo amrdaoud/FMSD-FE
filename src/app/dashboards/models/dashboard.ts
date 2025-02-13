@@ -15,7 +15,10 @@ export interface CardValueModel {
 }
 export interface DashboardDateFilterModel {
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    threshould : number,
+    startTime : string,
+    endTime : string
 }
 export interface IconModel {
     text: string;
