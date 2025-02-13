@@ -33,9 +33,11 @@ export class FuelAvailabilityChartReportComponent {
   drillParameter = signal<
     { index: number; label: string; }[]
   >([{ index: 0, label: ''}]);
+
   private lastDrillParameter = computed(() => {
     return this.drillParameter()[this.drillParameter().length - 1];
   });
+
   chartReport = toSignal(
     combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
       switchMap(([dateFilterValue, lastDrillParamValue]) => {
@@ -63,6 +65,7 @@ export class FuelAvailabilityChartReportComponent {
     ),
     { initialValue: { datasets: [], labels: [], values: [] } }
   );
+
   pushParameter(drillDownObject?: { serie?: string; label?: string }) {
     if(this.drillParameter().length >= 3) {
       return;

@@ -35,6 +35,7 @@ export interface UnjustifiedDiscrepanciesInFuelVolumeResult
   distributionTotalMeasuredAmount : number;
   diffrentFillmentDistributionDispensedAmount : number;
   diffrentFillmentDistributionMeasuredAmount : number;
+  totalDisrepancies : number; //(endingVolume - startingVolume) - (fillmentTotalDispensedAmount - distributionTotalDispensedAmount)
 
 }
 

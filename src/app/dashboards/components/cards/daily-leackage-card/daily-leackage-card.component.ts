@@ -7,50 +7,39 @@ import { DashboardCardLayoutComponent } from "../../dashboard-card-layout/dashbo
 import { MatIconModule } from '@angular/material/icon';
 import { ChartComponent } from '../../../../app-reusables/elements/charts/components/chart/chart.component';
 import { NgStyle } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-daily-leackage-card',
   standalone: true,
-  imports: [DashboardCardLayoutComponent, MatIconModule, ChartComponent, NgStyle],
+  imports: [DashboardCardLayoutComponent, MatIconModule, ChartComponent, NgStyle,MatButtonToggleModule],
   templateUrl: './daily-leackage-card.component.html',
   styleUrl: './daily-leackage-card.component.scss'
 })
 export class DailyLeackageCardComponent {
   private dashboardService = inject(DashboardService);
-  loading = this.dashboardService.dailyFuelAvailabilityLoading;
-  private drillDownGroups = ['city', 'station', 'tank'];
-
-  drillParameter = signal<
-  { index: number; label: string; }[]
->([{ index: 0, label: ''}]);
-
-
-private lastDrillParameter = computed(() => {
-  return this.drillParameter()[this.drillParameter().length - 1];
-});
-
+  loading = this.dashboardService.dailyLeackageLoading;
+  options = ['City', 'Station'];
+  selectedOption = signal<number>(0);
   dateFilter = input.required<DashboardDateFilterModel>();
 
-  chartReport = toSignal(
-    combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
-      switchMap(([dateFilterValue, lastDrillParamValue]) => {
-        return this.dashboardService.getFuelAvailabilityChart(
-          this.drillDownGroups[lastDrillParamValue.index],
-          dateFilterValue,
-          false,
-          lastDrillParamValue.label
-        );
-      })
-    ),
-    { initialValue: { datasets: [], labels: [], values: [] } }
-  );
 
-  reportChart =
-  toSignal(
+  chartCityReport = toSignal(
     toObservable(this.dateFilter).pipe(
-      switchMap(p => this.dashboardService.getDailyLeackage('',
-        p))
+      switchMap(p => this.dashboardService.getDailyLeackage(
+        p,true))
     )
     ,
   { initialValue: { datasets: [], labels: [], values: [] }});
+
+
+  chartStationReport =
+  toSignal(
+    toObservable(this.dateFilter).pipe(
+      switchMap(p => this.dashboardService.getDailyLeackage(
+        p,false))
+    )
+    ,
+  { initialValue: { datasets: [], labels: [], values: [] }});
+
 }

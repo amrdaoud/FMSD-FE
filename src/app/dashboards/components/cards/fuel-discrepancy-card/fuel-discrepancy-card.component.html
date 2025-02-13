@@ -8,59 +8,68 @@
             Compare between starting and ending volume with all operations applied
           </div>
       </div>
-
+      <mat-button-toggle-group [value]="selectedOption()" (valueChange)="selectedOption.set($event)">
+        @for (item of options; track $index) {
+        <mat-button-toggle [value]="$index">{{item}}</mat-button-toggle>
+        }
+    </mat-button-toggle-group>
   </div>
 
-  <div class="dashboard-card-content">
-          <div class="chart-content">
-            <div class="points-container">
-              <!-- Start Point -->
-              <div class="point">
-                <div class="point-label">{{ report()?.startingVolume | number : '1.0-0'  }} L</div>
-                <div class="start-circle"></div>
-                <div class="line-label lower-label-date">{{ dateFilter().startDate | date:'yyyy-MM-dd' }}</div>
 
-              </div>
+  <div class="dashboard-card-content" *ngIf="selectedOption() === 0 ? reportOverAll() : reportStation() as data">
 
-              <!-- Line -->
-              <div class="line-container">
-                <div class="line"></div>
-                <div class="line-label upper-label">
-                  Distributing
-                  <mat-icon style="color: #EA3323;">
-                    north
-                  </mat-icon>&nbsp;
-                  {{ report()?.distributionTotalMeasuredAmount | number : '1.0-0'  }}
-                </div>
+  @for (report of data; track $index)
+  {
+    <div class="chart-content">
+      <div class="points-container">
+        <!-- Start Point -->
+        <div class="point">
+          <div class="point-label">{{ report?.startingVolume | number : '1.0-0'  }} L</div>
+          <div class="start-circle"></div>
+          <div class="line-label lower-label-date">{{ dateFilter().startDate | date:'yyyy-MM-dd' }}</div>
 
-                <div class="line-label lower-label">
-                  &nbsp; &nbsp;&nbsp;&nbsp;Filling&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                 <mat-icon style="color: #75FB4C;">
-                    south
-                 </mat-icon>&nbsp;
-                 {{ report()?.fillmentTotalMeasuredAmount | number : '1.0-0'  }}
-               </div>
-              </div>
+        </div>
 
-              <!-- End Point -->
-              <div class="point">
-                <div class="point-label">{{ report()?.endingVolume | number : '1.0-0' }} L</div>
-                <div class="end-circle"></div>
-                <div class="line-label lower-label-date">{{ dateFilter().endDate | date:'yyyy-MM-dd' }}</div>
-
-              </div>
-
-            </div>
-
-            <div class="line-container" style="display: flex; flex-direction: row;">
-              <mat-icon style="color: rgb(220, 53, 69);margin: 5px;">report</mat-icon>
-               <span>
-                Operations Vs. current measurement discrepancy :
-                {{totalDisrepancy() | number : '1.0-0'}} L
-              </span>
-            </div>
-
+        <!-- Line -->
+        <div class="line-container">
+          <div class="line"></div>
+          <div class="line-label upper-label">
+            Distributing
+            <mat-icon style="color: #EA3323;">
+              north
+            </mat-icon>&nbsp;
+            {{ report?.distributionTotalDispensedAmount | number : '1.0-0'  }}
           </div>
+
+          <div class="line-label lower-label">
+            &nbsp; &nbsp;&nbsp;&nbsp;Filling&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <mat-icon style="color: #75FB4C;">
+              south
+           </mat-icon>&nbsp;
+           {{ report?.fillmentTotalDispensedAmount | number : '1.0-0'  }}
+         </div>
+        </div>
+
+        <!-- End Point -->
+        <div class="point">
+          <div class="point-label">{{ report?.endingVolume | number : '1.0-0' }} L</div>
+          <div class="end-circle"></div>
+          <div class="line-label lower-label-date">{{ dateFilter().endDate | date:'yyyy-MM-dd' }}</div>
+
+        </div>
+
+      </div>
+
+      <div class="line-container" style="display: flex; flex-direction: row;">
+        <mat-icon style="color: rgb(220, 53, 69);margin: 5px;">report</mat-icon>
+         <span>
+          Operations Vs. current measurement discrepancy :
+          {{report.totalDisrepancies| number : '1.0-0'}} L
+        </span>
+      </div>
+
+    </div>
+  }
 
           <div>
 

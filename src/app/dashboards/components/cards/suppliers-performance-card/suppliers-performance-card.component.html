@@ -8,14 +8,18 @@
             View the total volume and count of filling operations by each supplier
           </div>
       </div>
-
+      <mat-button-toggle-group [value]="selectedOption()" (valueChange)="selectedOption.set($event)">
+        @for (item of options; track $index) {
+        <mat-button-toggle [value]="$index">{{item}}</mat-button-toggle>
+        }
+    </mat-button-toggle-group>
   </div>
 
   <div class="dashboard-card-content">
           <div class="chart-content">
           <app-chart
-          [datasets]=" reportChart().datasets"
-          [labels]="reportChart().labels"
+          [datasets]="selectedOption() === 0 ? reportDistributionChart().datasets : reportFillingChart().datasets"
+          [labels]="selectedOption() === 0 ? reportDistributionChart().labels : reportFillingChart().labels"
           [chartType]="'bar'"
           [loading]="loading()"
           [chartHeightPercent]="99"

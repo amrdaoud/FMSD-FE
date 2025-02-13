@@ -93,39 +93,41 @@ export class DashboardService {
     )
   }
 
-  getDailyLeackage(name: string, dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+  getDailyLeackage(dateFilter: DashboardDateFilterModel , city : boolean): Observable<ChartApiResponse> {
     this.dailyLeackageLoading$.set(true);
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
     params = params.append('threshould', dateFilter.threshould);
+    params = params.append('city',city);
 
-    if(name) params = params.append('name', name);
     return this.http.get<ChartApiResponse>(this.apiUrl + '/DailyLeackageChart', {params}).pipe(
       finalize(() => this.dailyLeackageLoading$.set(false))
     )
   }
 
-  getSupplierPerformanceCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+  getSupplierPerformanceCard(dateFilter: DashboardDateFilterModel , filling : boolean): Observable<ChartApiResponse> {
     this.supplierPerformanceLoading$.set(true);
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
     params = params.append('threshould', dateFilter.threshould);
+    params = params.append('filling', filling);
 
     return this.http.get<ChartApiResponse>(this.apiUrl + '/SuppliersPerformance', {params}).pipe(
       finalize(() => this.supplierPerformanceLoading$.set(false))
     )
   }
 
-  getFuelVolumeDiscrepancyCard(dateFilter: DashboardDateFilterModel): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult> {
+  getFuelVolumeDiscrepancyCard(dateFilter: DashboardDateFilterModel , overall : boolean): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult[]> {
     this.fuelVolumeDiscrepancyLoading$.set(true);
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
     params = params.append('threshould', dateFilter.threshould);
+    params = params.append('overall',overall);
 
-    return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
+    return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult[]>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
       finalize(() => this.fuelVolumeDiscrepancyLoading$.set(false))
     )
   }
