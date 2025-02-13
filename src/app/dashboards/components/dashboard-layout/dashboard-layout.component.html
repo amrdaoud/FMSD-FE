@@ -13,8 +13,8 @@
             <h5>{{dateForm.value.endDate | date}}</h5>
         </div>
         <div class="date-control">
-          <p>THRESHOULD</p>
-          <h5>{{dateForm.value.threshould}}</h5>
+          <p>THRESHOLD</p>
+          <h5>{{dateForm.value.threshold}}</h5>
       </div>
         <button mat-flat-button (click)="openDateDialog()">
             Filters
@@ -73,6 +73,15 @@
 <mat-grid-tile colspan="2" rowspan="2">
   @defer(on viewport) {
       <app-city-expected-fule
+      [dateFilter]="dateFilter()"/>
+  } @placeholder {
+      <div>Loading Component</div>
+  }
+</mat-grid-tile>
+
+<mat-grid-tile colspan="2" rowspan="1">
+  @defer(on viewport) {
+      <app-unaccepted-volume-card
       [dateFilter]="dateFilter()"/>
   } @placeholder {
       <div>Loading Component</div>

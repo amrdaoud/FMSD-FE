@@ -17,6 +17,7 @@ import { DailyLeackageCardComponent } from "../cards/daily-leackage-card/daily-l
 import { SuppliersPerformanceCardComponent } from '../cards/suppliers-performance-card/suppliers-performance-card.component';
 import { FuelDiscrepancyCardComponent } from '../cards/fuel-discrepancy-card/fuel-discrepancy-card.component';
 import { CityExpectedFuleComponent } from '../cards/city-expected-fule/city-expected-fule.component';
+import { UnacceptedVolumeCardComponent } from '../cards/unaccepted-volume-card/unaccepted-volume-card.component';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -25,7 +26,7 @@ import { CityExpectedFuleComponent } from '../cards/city-expected-fule/city-expe
      MatButtonToggleModule, FuelAvailabilityChartReportComponent,
       DailyFuelAvailabilityCardComponent, AlarmTypesCardComponent,
        DailyLeackageCardComponent,SuppliersPerformanceCardComponent,
-       FuelDiscrepancyCardComponent,CityExpectedFuleComponent],
+       FuelDiscrepancyCardComponent,CityExpectedFuleComponent,UnacceptedVolumeCardComponent],
 
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss'
@@ -38,7 +39,7 @@ export class DashboardLayoutComponent {
   dateForm = new FormGroup({
     startDate: new FormControl(new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000), Validators.required),
     endDate: new FormControl(this.currentDate, Validators.required),
-    threshould: new FormControl(50),
+    threshold: new FormControl(50),
     startTime  : new FormControl('08:30'),
     endTime  : new FormControl('08:30'),
 
@@ -55,7 +56,7 @@ export class DashboardLayoutComponent {
     {initialValue: {
       startDate: new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000),
       endDate: this.currentDate,
-      threshould : 50,
+      threshold : 50,
       startTime : '12:00',
       endTime : '12:00'
     }}
