@@ -33,6 +33,6 @@ export class FuelDiscrepancyCardComponent {
       totalDisrepancy = computed(() => {
         const reportData = this.report(); // This will be the updated report from the signal
         return reportData ? (reportData.endingVolume - reportData.startingVolume) -
-        (reportData.fillmentTotalMeasuredAmount - reportData.distributionTotalMeasuredAmount) : 0;
+        (reportData.fillmentTotalDispensedAmount - reportData.distributionTotalDispensedAmount) : 0;
       });
 }
