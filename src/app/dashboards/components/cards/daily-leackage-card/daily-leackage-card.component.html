@@ -8,52 +8,45 @@
                 Detect continuous leakages across cities.
             </div>
         </div>
+        <mat-button-toggle-group [value]="selectedOption()" (valueChange)="selectedOption.set($event)">
+          @for (item of options; track $index) {
+          <mat-button-toggle [value]="$index">{{item}}</mat-button-toggle>
+          }
+      </mat-button-toggle-group>
     </div>
     <div class="dashboard-card-info">
-        @for (item of reportChart().values; track $index) {
-            <div class="value-container">
-                <div class="text">
-                    {{item.name}}
-                </div>
-                <div class="value">
-                    {{item.value}}
-                </div>
-            </div>
-            }
     <span class="full-spacer"></span>
-        <!-- @if (drillParameter().length > 1) {
-            <button mat-button (click)="rollUp()">
-                <mat-icon>reply</mat-icon>
-                {{drillParameter()[drillParameter().length - 1].label}}
-            </button>
-        } -->
-
 </div>
     <div class="dashboard-card-content">
         <div class="card-content">
             <div class="text-area">
                 <div class="ledger-area">
                     <div class="value">
-                        {{reportChart().cardValue?.boldValue}}
+                        {{selectedOption() === 0 ? chartStationReport().cardValue?.boldValue : chartCityReport().cardValue?.boldValue}}
                     </div>
                     <div class="details">
-                        @if(reportChart().cardValue?.icon) {
-                        <mat-icon [ngStyle]="{'color': reportChart().cardValue?.icon?.color}">
-                            {{reportChart().cardValue?.icon?.text}}
+                        @if(selectedOption() === 0 ? chartStationReport().cardValue?.icon : chartCityReport().cardValue?.icon) {
+                        <mat-icon [ngStyle]="{'color': selectedOption() === 0 ? chartStationReport().cardValue?.icon?.color : chartCityReport().cardValue?.icon?.color}">
+                          {{selectedOption() === 0 ? chartStationReport().cardValue?.icon?.text : chartCityReport().cardValue?.icon?.text}}
                         </mat-icon>
                         }
                         <span class="text">
-                            {{reportChart().cardValue?.lightValue}}
+                          {{selectedOption() === 0 ? chartStationReport().cardValue?.lightValue : chartCityReport().cardValue?.lightValue}}
                         </span>
                     </div>
                 </div>
                 <div class="title-area">
-                    {{reportChart().cardValue?.boldValueTitle}}
+                  {{selectedOption() === 0 ? chartStationReport().cardValue?.boldValueTitle : chartCityReport().cardValue?.boldValueTitle}}
                 </div>
             </div>
             <div class="chart-content">
-                <app-chart [chartType]="'line'" [datasets]="reportChart().datasets" [labels]="reportChart().labels"
-                    [displayLegend]="true" [displayX]="false" [displayY]="true" [pointRadius]="3"
+                <app-chart [chartType]="'line'"
+                 [datasets]="selectedOption() === 0 ? chartStationReport().datasets : chartCityReport().datasets"
+                  [labels]="selectedOption() === 0 ? chartStationReport().labels : chartCityReport().labels"
+                    [displayLegend]="true"
+                     [displayX]="false"
+                      [displayY]="true"
+                       [pointRadius]="3"
                     [loading]="loading()">
                 </app-chart>
             </div>
