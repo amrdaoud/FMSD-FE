@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ChartApiResponse, CityExpectedToProvideFuelResult, DashboardDateFilterModel, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
+import { ChartApiResponse, CityExpectedToProvideFuelResult, DashboardDateFilterModel, UnacceptedVolumeDto, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -47,6 +47,12 @@ export class DashboardService {
     return computed(() => this.daysOfAvailabilityLoading$())
   }
 
+  private unacceptedVolumeLoading$ = signal(false);
+  get unacceptedVolumeLoading(): Signal<boolean> {
+    return computed(() => this.unacceptedVolumeLoading$())
+  }
+
+
 
   getFuelAvailabilityChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean, name?: string): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
@@ -54,7 +60,7 @@ export class DashboardService {
     params = params.append('tcv', tcv);
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
 
     if(name) params = params.append('name', name);
     var result: Observable<ChartApiResponse>;
@@ -75,7 +81,7 @@ export class DashboardService {
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
 
     return this.http.get<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelVolume', {params}).pipe(
       finalize(() => this.dailyFuelAvailabilityLoading$.set(false))
@@ -86,7 +92,7 @@ export class DashboardService {
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
 
     return this.http.get<ChartApiResponse>(this.apiUrl + '/alarmTypesChart', {params}).pipe(
       finalize(() => this.alarmTypesLoading$.set(false))
@@ -98,7 +104,7 @@ export class DashboardService {
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
     params = params.append('city',city);
 
     return this.http.get<ChartApiResponse>(this.apiUrl + '/DailyLeackageChart', {params}).pipe(
@@ -111,7 +117,7 @@ export class DashboardService {
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
     params = params.append('filling', filling);
 
     return this.http.get<ChartApiResponse>(this.apiUrl + '/SuppliersPerformance', {params}).pipe(
@@ -124,7 +130,7 @@ export class DashboardService {
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
     params = params.append('overall',overall);
 
     return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult[]>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
@@ -138,12 +144,28 @@ export class DashboardService {
     var params = new HttpParams();
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
-    params = params.append('threshould', dateFilter.threshould);
+    params = params.append('threshold', dateFilter.threshold);
 
     return this.http.get<CityExpectedToProvideFuelResult[]>(this.apiUrl + '/CityExpectedToProvideFuel', {params}).pipe(
       finalize(() => this.daysOfAvailabilityLoading$.set(false))
     )
   }
+
+
+  getUnacceptedVolumeCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse>
+   {
+    this.unacceptedVolumeLoading$.set(true);
+    var params = new HttpParams();
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshold', dateFilter.threshold);
+
+    return this.http.get<ChartApiResponse>(this.apiUrl + '/UnAcceptedVolume', {params}).pipe(
+      finalize(() => this.unacceptedVolumeLoading$.set(false))
+    )
+  }
+
+
 
    convert12ToISO(date: Date, time: string): string {
     // Convert 12-hour time (AM/PM) to 24-hour format

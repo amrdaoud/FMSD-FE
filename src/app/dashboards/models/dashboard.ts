@@ -16,7 +16,7 @@ export interface CardValueModel {
 export interface DashboardDateFilterModel {
     startDate: Date,
     endDate: Date,
-    threshould : number,
+    threshold : number,
     startTime : string,
     endTime : string
 }
@@ -49,3 +49,9 @@ export interface CityExpectedToProvideFuelResult
   availableDays? : number;
 }
 
+
+export interface UnacceptedVolumeDto
+{
+  stationName : string;
+  stationVolum : number; // percentage %
+}
