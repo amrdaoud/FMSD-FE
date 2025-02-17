@@ -20,7 +20,7 @@ export class SuppliersPerformanceCardComponent {
   private dashboardService = inject(DashboardService);
   loading = this.dashboardService.supplierPerformanceLoading;
   dateFilter = input.required<DashboardDateFilterModel>();
-  options = ['Filling', 'Distr..'];
+  options = ['Distr..','Filling'];
   selectedOption = signal<number>(0);
 
   reportFillingChart =

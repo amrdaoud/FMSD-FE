@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ChartApiResponse, CityExpectedToProvideFuelResult, DashboardDateFilterModel, UnacceptedVolumeDto, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
+import { ChartApiResponse, CityExpectedToProvideFuelResult, DashboardDateFilterModel, LookUpDto, UnacceptedVolumeDto, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -125,15 +125,17 @@ export class DashboardService {
     )
   }
 
-  getFuelVolumeDiscrepancyCard(dateFilter: DashboardDateFilterModel , overall : boolean): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult[]> {
+  getFuelVolumeDiscrepancyCard(dateFilter: any): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult> {
     this.fuelVolumeDiscrepancyLoading$.set(true);
     var params = new HttpParams();
+    console.log(dateFilter);
+
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
     params = params.append('threshold', dateFilter.threshold);
-    params = params.append('overall',overall);
+    params = params.append('stationGUID', dateFilter.stationGUID);
 
-    return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult[]>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
+    return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
       finalize(() => this.fuelVolumeDiscrepancyLoading$.set(false))
     )
   }
@@ -160,12 +162,15 @@ export class DashboardService {
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
     params = params.append('threshold', dateFilter.threshold);
 
-    return this.http.get<ChartApiResponse>(this.apiUrl + '/UnAcceptedVolume', {params}).pipe(
+    return this.http.get<ChartApiResponse>(this.apiUrl + '/UnAcceptedSatationVolume', {params}).pipe(
       finalize(() => this.unacceptedVolumeLoading$.set(false))
     )
   }
 
-
+   getFuelStations() : Observable<LookUpDto[]>
+   {
+      return this.http.get<LookUpDto[]>(this.apiUrl + '/GetStations');
+   }
 
    convert12ToISO(date: Date, time: string): string {
     // Convert 12-hour time (AM/PM) to 24-hour format
@@ -189,6 +194,7 @@ export class DashboardService {
     return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
   }
   convertToISO(date: Date, time: string): string {
+
     // Validate time format (HH:mm)
     const timeParts = time.match(/^(\d{1,2}):(\d{2})$/);
 

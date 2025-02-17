@@ -15,8 +15,18 @@
       </mat-button-toggle-group>
     </div>
     <div class="dashboard-card-info">
-    <span class="full-spacer"></span>
-</div>
+      @for (item of selectedOption() === 0 ? chartStationReport().values : chartCityReport().values; track $index) {
+        <div class="value-container">
+            <div class="text">
+                {{item.name}}
+            </div>
+            <div class="value">
+                {{item.value}}
+            </div>
+        </div>
+        }
+
+    </div>
     <div class="dashboard-card-content">
         <div class="card-content">
             <div class="text-area">
