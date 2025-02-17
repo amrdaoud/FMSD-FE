@@ -42,6 +42,7 @@ export class DashboardLayoutComponent {
     threshold: new FormControl(50),
     startTime  : new FormControl('08:30'),
     endTime  : new FormControl('08:30'),
+    stationGUID : new FormControl('')
 
 
   },{updateOn: 'submit'});
@@ -58,7 +59,8 @@ export class DashboardLayoutComponent {
       endDate: this.currentDate,
       threshold : 50,
       startTime : '12:00',
-      endTime : '12:00'
+      endTime : '12:00',
+      stationGUID : ''
     }}
   )
 }

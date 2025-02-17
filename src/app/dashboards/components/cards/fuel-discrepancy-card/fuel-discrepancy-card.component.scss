@@ -140,3 +140,17 @@
         }
     }
 }
+
+.example-form {
+  min-width: 100px;
+  max-width: 500px;
+  width: 60%;
+  border: 2px solid #ccc; /* Optional: adds a border */
+  border-radius: 5px; /* Adjust the value for rounded corners */
+  height: 68px;
+}
+
+
+.example-full-width {
+  width: 100%;
+}

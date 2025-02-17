@@ -19,7 +19,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 export class DailyLeackageCardComponent {
   private dashboardService = inject(DashboardService);
   loading = this.dashboardService.dailyLeackageLoading;
-  options = ['City', 'Station'];
+  options = ['Station','City'];
   selectedOption = signal<number>(0);
   dateFilter = input.required<DashboardDateFilterModel>();
 

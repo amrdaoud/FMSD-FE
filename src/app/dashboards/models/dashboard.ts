@@ -18,7 +18,7 @@ export interface DashboardDateFilterModel {
     endDate: Date,
     threshold : number,
     startTime : string,
-    endTime : string
+    endTime : string,
 }
 export interface IconModel {
     text: string;
@@ -54,4 +54,10 @@ export interface UnacceptedVolumeDto
 {
   stationName : string;
   stationVolum : number; // percentage %
+}
+
+export interface LookUpDto
+{
+  id : string;
+  name : string;
 }

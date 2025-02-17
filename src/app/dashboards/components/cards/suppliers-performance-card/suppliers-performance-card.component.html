@@ -15,7 +15,21 @@
     </mat-button-toggle-group>
   </div>
 
+  <div class="dashboard-card-info">
+    @for (item of selectedOption() === 0 ? reportDistributionChart().values : reportFillingChart().values; track $index) {
+      <div class="value-container">
+          <div class="text">
+              {{item.name}}
+          </div>
+          <div class="value">
+              {{item.value}}
+          </div>
+      </div>
+      }
+  </div>
+
   <div class="dashboard-card-content">
+
           <div class="chart-content">
           <app-chart
           [datasets]="selectedOption() === 0 ? reportDistributionChart().datasets : reportFillingChart().datasets"
