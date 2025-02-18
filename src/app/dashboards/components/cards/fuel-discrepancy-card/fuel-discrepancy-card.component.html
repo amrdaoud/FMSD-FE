@@ -8,23 +8,25 @@
             Compare between starting and ending volume with all operations applied
           </div>
       </div>
-      <form class="example-form">
-        <mat-label>Stations</mat-label>
-        <mat-form-field class="example-full-width">
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Station">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            @for (option of filteredOptions | async; track option) {
-              <mat-option [value]="option">{{option.name}}</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Select Stations</mat-label>
+        <mat-select [formControl]="myControl">
+          <mat-option [value]="null">Overall</mat-option>
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">{{option.name}}</mat-option>
+          }
+        </mat-select>
+
+      </mat-form-field>
   </div>
 
 
   <div class="dashboard-card-content">
 
-    <div class="chart-content">
+    @if (loading()) {
+      <app-simple-loader></app-simple-loader>
+  }
+    <div class="chart-content" *ngIf="!loading()">
       <div class="points-container">
         <!-- Start Point -->
         <div class="point">
@@ -42,7 +44,7 @@
             <mat-icon style="color: #EA3323;">
               north
             </mat-icon>&nbsp;
-            {{ report()?.distributionTotalDispensedAmount | number : '1.0-0'  }}
+            {{ report()?.totalDistributionDispensedAmount | number : '1.0-0'  }}
           </div>
 
           <div class="line-label lower-label">
@@ -50,7 +52,7 @@
            <mat-icon style="color: #75FB4C;">
               south
            </mat-icon>&nbsp;
-           {{ report()?.fillmentTotalDispensedAmount | number : '1.0-0'  }}
+           {{ report()?.totalFillmentDispensedAmount | number : '1.0-0'  }}
          </div>
         </div>
 
