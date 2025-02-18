@@ -13,14 +13,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AsyncPipe} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
-import { ThemeService } from 'ng2-charts';
+import {MatSelectModule} from '@angular/material/select';
+import { SimpleLoaderComponent } from '../../../../app-reusables/elements/loaders/simple-loader/simple-loader.component';
 
 @Component({
   selector: 'app-fuel-discrepancy-card',
   standalone: true,
   imports: [DashboardCardLayoutComponent,CommonModule,MatIconModule,MatButtonToggleModule,
     MatAutocompleteModule , MatFormFieldModule,FormsModule,ReactiveFormsModule,
-    MatInputModule,AsyncPipe
+    MatInputModule,AsyncPipe,MatSelectModule,SimpleLoaderComponent
   ],
   templateUrl: './fuel-discrepancy-card.component.html',
   styleUrl: './fuel-discrepancy-card.component.scss',
