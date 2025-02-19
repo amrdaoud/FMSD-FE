@@ -5,7 +5,8 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { errorHandlerInterceptor } from './interceptors/error-handler.interceptor';
 
 const MY_FORMATS = {
   parse: {
@@ -23,9 +24,9 @@ export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideHttpClient(withInterceptors([errorHandlerInterceptor])),
     provideCharts(withDefaultRegisterables()),
-    provideMomentDateAdapter(MY_FORMATS),
-    provideHttpClient()
+    provideMomentDateAdapter(MY_FORMATS)
   ]
 };
 

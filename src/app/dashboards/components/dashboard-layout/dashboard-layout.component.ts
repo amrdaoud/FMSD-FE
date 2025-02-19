@@ -40,8 +40,8 @@ export class DashboardLayoutComponent {
     startDate: new FormControl(new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000), Validators.required),
     endDate: new FormControl(this.currentDate, Validators.required),
     threshold: new FormControl(50),
-    startTime  : new FormControl('08:30'),
-    endTime  : new FormControl('08:30'),
+    startTime  : new FormControl('00:00'),
+    endTime  : new FormControl('23:59'),
     stationGUID : new FormControl('')
 
 
@@ -58,8 +58,8 @@ export class DashboardLayoutComponent {
       startDate: new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000),
       endDate: this.currentDate,
       threshold : 50,
-      startTime : '12:00',
-      endTime : '12:00',
+      startTime : '00:00',
+      endTime : '23:59',
       stationGUID : ''
     }}
   )
