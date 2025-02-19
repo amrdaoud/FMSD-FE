@@ -128,7 +128,6 @@ export class DashboardService {
   getFuelVolumeDiscrepancyCard(dateFilter: any): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult> {
     this.fuelVolumeDiscrepancyLoading$.set(true);
     var params = new HttpParams();
-    console.log(dateFilter);
 
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
