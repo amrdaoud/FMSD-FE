@@ -193,7 +193,6 @@ export class DashboardService {
     return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
   }
   convertToISO(date: Date, time: string): string {
-
     // Validate time format (HH:mm)
     const timeParts = time.match(/^(\d{1,2}):(\d{2})$/);
 
@@ -202,10 +201,18 @@ export class DashboardService {
     }
 
     const [_, hours, minutes] = timeParts;
-    const formattedTime = `${hours.padStart(2, "0")}:${minutes}:00`;
 
-    // Construct the full ISO DateTime string
-    return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
+    // Ensure two-digit format
+    const formattedHours = hours.padStart(2, "0");
+    const formattedMinutes = minutes.padStart(2, "0");
+
+    // Create a new date in local time
+    const localDate = new Date(date);
+    localDate.setHours(parseInt(formattedHours, 10), parseInt(formattedMinutes, 10), 0, 0);
+
+    // Convert to ISO string without forcing UTC
+    return localDate.toISOString();
   }
+
 
 }
