@@ -39,7 +39,7 @@ export class DashboardLayoutComponent {
   dateForm = new FormGroup({
     startDate: new FormControl(new Date(this.currentDate.getTime() - 7 * 24 * 60 * 60 * 1000), Validators.required),
     endDate: new FormControl(this.currentDate, Validators.required),
-    threshold: new FormControl(50),
+    threshold: new FormControl(50 , [Validators.min(0) , Validators.max(100)]),
     startTime  : new FormControl('00:00'),
     endTime  : new FormControl('23:59'),
     stationGUID : new FormControl('')
@@ -63,4 +63,6 @@ export class DashboardLayoutComponent {
       stationGUID : ''
     }}
   )
+
+
 }
