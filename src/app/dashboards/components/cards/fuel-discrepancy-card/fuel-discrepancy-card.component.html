@@ -12,7 +12,7 @@
         <mat-label>Select Stations</mat-label>
         <mat-select [formControl]="myControl">
           <mat-option [value]="null">Overall</mat-option>
-          @for (option of filteredOptions | async; track option) {
+          @for (option of stationOptions | async; track option) {
             <mat-option [value]="option">{{option.name}}</mat-option>
           }
         </mat-select>

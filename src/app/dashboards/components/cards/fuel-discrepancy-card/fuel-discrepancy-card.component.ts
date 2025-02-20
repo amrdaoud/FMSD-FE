@@ -28,19 +28,16 @@ import { SimpleLoaderComponent } from '../../../../app-reusables/elements/loader
   providers: [DatePipe] // Add DatePipe to the providers array
 
 })
-export class FuelDiscrepancyCardComponent implements OnInit {
+export class FuelDiscrepancyCardComponent {
 
  private dashboardService = inject(DashboardService);
   loading = this.dashboardService.fuelVolumeDiscrepancyLoading;
   dateFilter =  input.required<DashboardDateFilterModel>();
   options : LookUpDto[] = [];
   myControl = new FormControl<string | LookUpDto>('');
+  stationOptions = this.dashboardService.getFuelStations();
   filteredOptions: Observable<LookUpDto[]> = of([]);
 
-  ngOnInit(): void {
-    this.getOptions();
-
-  }
 
   report = toSignal(
     merge(
@@ -67,30 +64,31 @@ export class FuelDiscrepancyCardComponent implements OnInit {
 
 
 
-   getOptions()
-   {
-     this.dashboardService.getFuelStations().subscribe((x) =>{
-        this.options = x
-        this.filteredOptions = this.myControl.valueChanges.pipe(
-          startWith(''),
-          map(value => {
-            const name = typeof value === 'string' ? value : value?.name;
-            return name ? this._filter(name as string) : this.options.slice();
-          }),
-        );
-     })
-   }
+  //  getOptions()
+  //  {
+  //   this.dashboardService.getFuelStations().subscribe((x) =>{
+  //       this.options = x
+  //       this.filteredOptions = this.myControl.valueChanges.pipe(
+  //         startWith(''),
+  //         map(value => {
+  //           const name = typeof value === 'string' ? value : value?.name;
+  //           return name ?
+  //           this._filter(name as string) : this.options.slice();
+  //         }),
+  //       );
+  //    })
+  //  }
 
-   displayFn(option: LookUpDto): string {
-    return option && option.name ? option.name : '';
-  }
+  //  displayFn(option: LookUpDto): string {
+  //   return option && option.name ? option.name : '';
+  // }
 
 
 
-  private _filter(name: string): LookUpDto[] {
-    const filterValue = name.toLowerCase();
+  // // private _filter(name: string): LookUpDto[] {
+  // //   const filterValue = name.toLowerCase();
 
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
+  // //   return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+  // // }
 
 }
