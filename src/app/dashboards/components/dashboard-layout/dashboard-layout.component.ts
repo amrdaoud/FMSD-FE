@@ -18,6 +18,7 @@ import { SuppliersPerformanceCardComponent } from '../cards/suppliers-performanc
 import { FuelDiscrepancyCardComponent } from '../cards/fuel-discrepancy-card/fuel-discrepancy-card.component';
 import { CityExpectedFuleComponent } from '../cards/city-expected-fule/city-expected-fule.component';
 import { UnacceptedVolumeCardComponent } from '../cards/unaccepted-volume-card/unaccepted-volume-card.component';
+import { SmallStationCardsComponent } from '../cards/small-station-cards/small-station-cards.component';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -26,7 +27,7 @@ import { UnacceptedVolumeCardComponent } from '../cards/unaccepted-volume-card/u
      MatButtonToggleModule, FuelAvailabilityChartReportComponent,
       DailyFuelAvailabilityCardComponent, AlarmTypesCardComponent,
        DailyLeackageCardComponent,SuppliersPerformanceCardComponent,
-       FuelDiscrepancyCardComponent,CityExpectedFuleComponent,UnacceptedVolumeCardComponent],
+       FuelDiscrepancyCardComponent,CityExpectedFuleComponent,UnacceptedVolumeCardComponent,SmallStationCardsComponent],
 
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss'
