@@ -1,0 +1,20 @@
+:host {
+    width:100%;
+    height:calc(100% - 10px);
+}
+.value-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    .text {
+        font-size: 14px;
+        color: #979797;
+    }
+    .value {
+        font-size: 24px;
+        font-weight: 400;
+    }
+}
+.chart-content {
+    height: 216px;
+}

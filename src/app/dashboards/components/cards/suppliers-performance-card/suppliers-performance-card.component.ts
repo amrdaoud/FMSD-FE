@@ -20,8 +20,8 @@ export class SuppliersPerformanceCardComponent {
   private dashboardService = inject(DashboardService);
   loading = this.dashboardService.supplierPerformanceLoading;
   dateFilter = input.required<DashboardDateFilterModel>();
-  options = ['Distr..','Filling'];
-  selectedOption = signal<number>(0);
+  //options = ['Distr..','Filling'];
+  //selectedOption = signal<number>(0);
 
   reportFillingChart =
   toSignal(
@@ -34,14 +34,14 @@ export class SuppliersPerformanceCardComponent {
 
 
 
-  reportDistributionChart =
-  toSignal(
-    toObservable(this.dateFilter).pipe(
-      switchMap(p => this.dashboardService.getSupplierPerformanceCard(
-        p,false))
-    )
-    ,
-  { initialValue: { datasets: [], labels: [], values: [] }});
+  // reportDistributionChart =
+  // toSignal(
+  //   toObservable(this.dateFilter).pipe(
+  //     switchMap(p => this.dashboardService.getSupplierPerformanceCard(
+  //       p,false))
+  //   )
+  //   ,
+  // { initialValue: { datasets: [], labels: [], values: [] }});
 
 
 
