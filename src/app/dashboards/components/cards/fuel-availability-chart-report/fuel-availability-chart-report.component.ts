@@ -44,7 +44,7 @@ export class FuelAvailabilityChartReportComponent {
         return this.dashboardService.getFuelAvailabilityChart(
           this.drillDownGroups[lastDrillParamValue.index],
           dateFilterValue,
-          false,
+          false,false,
           lastDrillParamValue.label
         );
       })
@@ -58,7 +58,7 @@ export class FuelAvailabilityChartReportComponent {
         return this.dashboardService.getFuelAvailabilityChart(
           this.drillDownGroups[lastDrillParamValue.index],
           dateFilterValue,
-          true,
+          true,false,
           lastDrillParamValue.label
         );
       })
