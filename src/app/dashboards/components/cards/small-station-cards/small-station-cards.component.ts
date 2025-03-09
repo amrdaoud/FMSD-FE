@@ -25,7 +25,7 @@ export class SmallStationCardsComponent {
   private dashboardService = inject(DashboardService);
   options = ['Current', 'TCV'];
   selectedOption = signal<number>(0);
-  loadingChart = this.dashboardService.fuelAvailabilityLoading;
+  loadingChart = this.dashboardService.fuelAvailabilitySmallStationLoading;
   private drillDownGroups = ['city', 'station', 'tank'];
   dateFilter = input.required<DashboardDateFilterModel>();
 
@@ -40,7 +40,7 @@ export class SmallStationCardsComponent {
   chartReport = toSignal(
     combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
       switchMap(([dateFilterValue, lastDrillParamValue]) => {
-        return this.dashboardService.getFuelAvailabilityChart(
+        return this.dashboardService.getFuelAvailabilitySmallStationChart(
           this.drillDownGroups[lastDrillParamValue.index],
           dateFilterValue,
           false,true,
@@ -54,7 +54,7 @@ export class SmallStationCardsComponent {
   chartReportTcv =toSignal(
     combineLatest([toObservable(this.dateFilter), toObservable(this.lastDrillParameter)]).pipe(
       switchMap(([dateFilterValue, lastDrillParamValue]) => {
-        return this.dashboardService.getFuelAvailabilityChart(
+        return this.dashboardService.getFuelAvailabilitySmallStationChart(
           this.drillDownGroups[lastDrillParamValue.index],
           dateFilterValue,
           true,true,

@@ -16,6 +16,14 @@ export class DashboardService {
     return computed(() => this.fuelAvailabilityLoading$())
   }
 
+
+  private fuelAvailabilitySmallStationLoading$ = signal(false);
+  get fuelAvailabilitySmallStationLoading(): Signal<boolean> {
+    return computed(() => this.fuelAvailabilitySmallStationLoading$())
+  }
+
+
+
   private dailyFuelAvailabilityLoading$ = signal(false);
   get dailyFuelAvailabilityLoading(): Signal<boolean> {
     return computed(() => this.dailyFuelAvailabilityLoading$())
@@ -77,6 +85,32 @@ export class DashboardService {
       finalize(() => this.fuelAvailabilityLoading$.set(false))
     )
   }
+
+  getFuelAvailabilitySmallStationChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean,isSmall:boolean, name?: string ): Observable<ChartApiResponse> {
+    this.fuelAvailabilitySmallStationLoading$.set(true);
+    var params = new HttpParams();
+    params = params.append('tcv', tcv);
+    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
+    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append('threshold', dateFilter.threshold);
+    params = params.append('isSmall', isSmall);
+
+    if(name) params = params.append('name', name);
+    var result: Observable<ChartApiResponse>;
+    if(groupBy === 'station') {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/stationreport', {params});
+    } else if (groupBy === 'tank') {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/tankreport', {params});
+    }
+    else {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/cityreport', {params});
+    }
+    return result.pipe(
+      finalize(() => this.fuelAvailabilitySmallStationLoading$.set(false))
+    )
+  }
+
+
   getDailyAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
     this.dailyFuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
