@@ -43,7 +43,7 @@ export class SmallStationCardsComponent {
         return this.dashboardService.getFuelAvailabilityChart(
           this.drillDownGroups[lastDrillParamValue.index],
           dateFilterValue,
-          false,
+          false,true,
           lastDrillParamValue.label
         );
       })
@@ -57,7 +57,7 @@ export class SmallStationCardsComponent {
         return this.dashboardService.getFuelAvailabilityChart(
           this.drillDownGroups[lastDrillParamValue.index],
           dateFilterValue,
-          true,
+          true,true,
           lastDrillParamValue.label
         );
       })

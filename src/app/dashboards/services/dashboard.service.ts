@@ -54,13 +54,14 @@ export class DashboardService {
 
 
 
-  getFuelAvailabilityChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean, name?: string): Observable<ChartApiResponse> {
+  getFuelAvailabilityChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean,isSmall:boolean, name?: string ): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
     params = params.append('tcv', tcv);
     params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
     params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
     params = params.append('threshold', dateFilter.threshold);
+    params = params.append('isSmall', isSmall);
 
     if(name) params = params.append('name', name);
     var result: Observable<ChartApiResponse>;
