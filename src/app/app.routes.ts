@@ -6,4 +6,6 @@ export const routes: Routes = [
     {path: 'reports/alarm-report', loadComponent: () => import('./reports/reports/alarms-report/components/alarms-report.component').then(c => c.AlarmsReportComponent)},
     {path: 'reports/tank-report', loadComponent: () => import('./reports/reports/tank-measurement-report/components/tank-measurement-report.component').then(c => c.TankMeasurementReportComponent)},
     {path: 'reports/transaction-report', loadComponent: () => import('./reports/reports/distribution-report/components/distribution-report.component').then(c => c.DistributionReportComponent)},
+    {path: 'reports/transaction-detail-report', loadComponent: () => import('./reports/reports/distribution-detail-report/components/distrinution-detail-report/distrinution-detail-report.component').then(c => c.DistrinutionDetailReportComponent)},
+
 ];
