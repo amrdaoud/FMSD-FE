@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { finalize, Observable } from 'rxjs';
 import { Station } from '../reports/alarms-report/models/station';
 import { Tank } from '../reports/alarms-report/models/tank';
+import { LookUpDto } from '../../dashboards/models/dashboard';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,11 @@ export class GenericService {
   private loadingTanks$ = signal(false);
   get loadingTanks(): Signal<boolean> {
     return this.loadingTanks$;
+  }
+
+  private loadingTypes$ = signal(false);
+  get loadingTypes(): Signal<boolean> {
+    return this.loadingTypes$;
   }
 
   getAlarmTypes(): Observable<string[]> {
@@ -70,6 +76,14 @@ export class GenericService {
     }
     return this.http.get<Tank[]>(this.reportUrl + 'Tanks', {params}).pipe(
       finalize(() => this.loadingTanks$.set(false))
+    )
+  }
+
+
+  getOperationTypes(): Observable<LookUpDto[]> {
+    this.loadingTypes$.set(true);
+    return this.http.get<LookUpDto[]>(this.reportUrl + 'OperationTypes').pipe(
+      finalize(() => this.loadingTypes$.set(false))
     )
   }
 
