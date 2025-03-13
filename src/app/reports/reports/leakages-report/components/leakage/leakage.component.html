@@ -1,0 +1,17 @@
+<app-data-table
+[title]="'Leakages Report'"
+[subtitle]="'This report show the leakages made on strategic stations'"
+[columns]="columns"
+[filters]="filters"
+[data]="dataWithSize()!.data"
+[dataSize]="dataWithSize()!.dataSize"
+sortActive="CreatedAt"
+sortDirection="desc"
+[loading]="loading()"
+[loadingDownload]="loadingDownload() > 0"
+(downloadRequested)="downloadData()"
+
+[(requestObject)]="initialFilters"
+
+></app-data-table>
+
