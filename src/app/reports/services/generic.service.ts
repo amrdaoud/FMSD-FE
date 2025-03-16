@@ -46,6 +46,11 @@ export class GenericService {
     return this.loadingLeakageTypes$;
   }
 
+  private loadingPumbNumber$ = signal(false);
+  get loadingPumbNumber(): Signal<boolean> {
+    return this.loadingPumbNumber$;
+  }
+
   getAlarmTypes(): Observable<string[]> {
     this.loadingAlarmTypes$.set(true);
     return this.http.get<string[]>(this.reportUrl + 'AlarmTypes').pipe(
@@ -97,6 +102,13 @@ export class GenericService {
     this.loadingLeakageTypes$.set(true);
     return this.http.get<LookUpDto[]>(this.reportUrl + 'LeakagesTypes').pipe(
       finalize(() => this.loadingLeakageTypes$.set(false))
+    )
+  }
+
+  getStationPumbs(): Observable<LookUpDto[]> {
+    this.loadingPumbNumber$.set(true);
+    return this.http.get<LookUpDto[]>(this.reportUrl + 'Pumbs').pipe(
+      finalize(() => this.loadingPumbNumber$.set(false))
     )
   }
 

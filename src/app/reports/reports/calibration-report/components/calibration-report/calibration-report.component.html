@@ -1,0 +1,17 @@
+<app-data-table
+[title]="'Calibration Report'"
+[subtitle]="'This report show the Calibrations made on strategic stations'"
+[columns]="columns"
+[filters]="filters"
+[data]="dataWithSize()!.data"
+[dataSize]="dataWithSize()!.dataSize"
+sortActive="StartDate"
+sortDirection="desc"
+[loading]="loading()"
+[loadingDownload]="loadingDownload() > 0"
+(downloadRequested)="downloadData()"
+
+[(requestObject)]="initialFilters"
+
+></app-data-table>
+
