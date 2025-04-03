@@ -7,6 +7,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorHandlerInterceptor } from './interceptors/error-handler.interceptor';
+import { jwtInterceptor } from './interceptors/jwt.interceptor';
 
 const MY_FORMATS = {
   parse: {
@@ -21,12 +22,14 @@ const MY_FORMATS = {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }),
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([errorHandlerInterceptor])),
+    provideHttpClient(
+      withInterceptors([jwtInterceptor, errorHandlerInterceptor])
+    ),
     provideCharts(withDefaultRegisterables()),
-    provideMomentDateAdapter(MY_FORMATS)
-  ]
+    provideMomentDateAdapter(MY_FORMATS),
+  ],
 };
-
