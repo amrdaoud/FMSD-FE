@@ -54,4 +54,18 @@ export class AccountService {
       })
     );
   }
+
+  getDistinctRoles$(): Observable<string[]> {
+    return this.authData$.pipe(
+      map((authData) => {
+        if (!authData?.userInfo?.tenantAccesses) return [];
+
+        const allRoles = authData.userInfo.tenantAccesses.flatMap(
+          (access) => access.roleList
+        );
+
+        return [...new Set(allRoles)];
+      })
+    );
+  }
 }

@@ -1,22 +1,22 @@
 .scrollable-list {
-  max-height: 500px; /* Adjust height as needed */
+  max-height: 300px; /* Responsive limit: max 50% of viewport height */
   overflow-y: auto;
 }
 :host {
-  width:100%;
-  height:calc(100% - 10px);
+  width: 100%;
+  height: calc(100% - 10px);
 }
 .value-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
   .text {
-      font-size: 14px;
-      color: #979797;
+    font-size: 14px;
+    color: #979797;
   }
   .value {
-      font-size: 24px;
-      font-weight: 400;
+    font-size: 24px;
+    font-weight: 400;
   }
 }
 .chart-content {
@@ -34,7 +34,6 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-
 }
 
 .list-stats {
@@ -48,4 +47,3 @@
   width: 400px;
   height: 12px; /* Adjust height if needed */
 }
-
