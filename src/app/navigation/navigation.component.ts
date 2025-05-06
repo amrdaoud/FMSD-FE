@@ -29,7 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './navigation.component.scss',
 })
 export class NavigationComponent extends Unsubscriber {
-  private accountService = inject(AccountService);
+  protected accountService = inject(AccountService);
   authData$ = this.accountService.authData$;
   logging$ = this.accountService.logging$;
 

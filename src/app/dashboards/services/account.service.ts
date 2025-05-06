@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, finalize, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, finalize, map, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TokenDto } from '../models/account';
 
@@ -42,5 +42,30 @@ export class AccountService {
   }
   isTokenExpired(): boolean {
     return !this.auth || Date.now() >= new Date(this.auth.expiryTime).getTime();
+  }
+
+  hasRole$(roles: string[]): Observable<boolean> {
+    return this.authData$.pipe(
+      map((authData) => {
+        if (!authData) return false;
+        return authData.userInfo.tenantAccesses.some((access) =>
+          roles.some((role) => access.roleList.includes(role))
+        );
+      })
+    );
+  }
+
+  getDistinctRoles$(): Observable<string[]> {
+    return this.authData$.pipe(
+      map((authData) => {
+        if (!authData?.userInfo?.tenantAccesses) return [];
+
+        const allRoles = authData.userInfo.tenantAccesses.flatMap(
+          (access) => access.roleList
+        );
+
+        return [...new Set(allRoles)];
+      })
+    );
   }
 }

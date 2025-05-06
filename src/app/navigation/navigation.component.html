@@ -9,6 +9,7 @@
         class="menu-item"
         routerLinkActive="selected"
         [matMenuTriggerFor]="reportMenu"
+        *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async"
       >
         <mat-icon>table</mat-icon>Reports<mat-icon>arrow_drop_down</mat-icon>
       </div>
