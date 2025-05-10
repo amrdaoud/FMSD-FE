@@ -1,11 +1,19 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ChartApiResponse, CityExpectedToProvideFuelResult, DashboardDateFilterModel, LookUpDto, UnacceptedVolumeDto, UnjustifiedDiscrepanciesInFuelVolumeResult } from '../models/dashboard';
+import {
+  ChartApiResponse,
+  CityExpectedToProvideFuelResult,
+  DashboardDateFilterModel,
+  LookUpDto,
+  UnacceptedVolumeDto,
+  UnjustifiedDiscrepanciesInFuelVolumeResult,
+} from '../models/dashboard';
 import { environment } from '../../../environments/environment';
+import { MetaComponent } from '../models/MetaCard';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardService {
   private http = inject(HttpClient);
@@ -13,241 +21,349 @@ export class DashboardService {
 
   private fuelAvailabilityLoading$ = signal(false);
   get fuelAvailabilityLoading(): Signal<boolean> {
-    return computed(() => this.fuelAvailabilityLoading$())
+    return computed(() => this.fuelAvailabilityLoading$());
   }
-
 
   private fuelAvailabilitySmallStationLoading$ = signal(false);
   get fuelAvailabilitySmallStationLoading(): Signal<boolean> {
-    return computed(() => this.fuelAvailabilitySmallStationLoading$())
+    return computed(() => this.fuelAvailabilitySmallStationLoading$());
   }
-
-
 
   private dailyFuelAvailabilityLoading$ = signal(false);
   get dailyFuelAvailabilityLoading(): Signal<boolean> {
-    return computed(() => this.dailyFuelAvailabilityLoading$())
+    return computed(() => this.dailyFuelAvailabilityLoading$());
   }
 
   private alarmTypesLoading$ = signal(false);
   get alarmTypesLoading(): Signal<boolean> {
-    return computed(() => this.alarmTypesLoading$())
+    return computed(() => this.alarmTypesLoading$());
   }
 
   private dailyLeackageLoading$ = signal(false);
   get dailyLeackageLoading(): Signal<boolean> {
-    return computed(() => this.dailyLeackageLoading$())
+    return computed(() => this.dailyLeackageLoading$());
   }
-
 
   private supplierPerformanceLoading$ = signal(false);
   get supplierPerformanceLoading(): Signal<boolean> {
-    return computed(() => this.supplierPerformanceLoading$())
+    return computed(() => this.supplierPerformanceLoading$());
   }
 
   private fuelVolumeDiscrepancyLoading$ = signal(false);
   get fuelVolumeDiscrepancyLoading(): Signal<boolean> {
-    return computed(() => this.fuelVolumeDiscrepancyLoading$())
+    return computed(() => this.fuelVolumeDiscrepancyLoading$());
   }
 
   private daysOfAvailabilityLoading$ = signal(false);
   get daysOfAvailabilityLoading(): Signal<boolean> {
-    return computed(() => this.daysOfAvailabilityLoading$())
+    return computed(() => this.daysOfAvailabilityLoading$());
   }
 
   private unacceptedVolumeLoading$ = signal(false);
   get unacceptedVolumeLoading(): Signal<boolean> {
-    return computed(() => this.unacceptedVolumeLoading$())
+    return computed(() => this.unacceptedVolumeLoading$());
   }
 
+  private dashboardViewCfgLoading$ = signal(false);
+  get dashboardViewCfgLoading(): Signal<boolean> {
+    return computed(() => this.dashboardViewCfgLoading$());
+  }
 
-
-  getFuelAvailabilityChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean,isSmall:boolean, name?: string ): Observable<ChartApiResponse> {
+  getFuelAvailabilityChart(
+    groupBy: string,
+    dateFilter: DashboardDateFilterModel,
+    tcv: boolean,
+    isSmall: boolean,
+    name?: string
+  ): Observable<ChartApiResponse> {
     this.fuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
     params = params.append('tcv', tcv);
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
     params = params.append('isSmall', isSmall);
 
-    if(name) params = params.append('name', name);
+    if (name) params = params.append('name', name);
     var result: Observable<ChartApiResponse>;
-    if(groupBy === 'station') {
-      result = this.http.get<ChartApiResponse>(this.apiUrl + '/stationreport', {params});
+    if (groupBy === 'station') {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/stationreport', {
+        params,
+      });
     } else if (groupBy === 'tank') {
-      result = this.http.get<ChartApiResponse>(this.apiUrl + '/tankreport', {params});
-    }
-    else {
-      result = this.http.get<ChartApiResponse>(this.apiUrl + '/cityreport', {params});
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/tankreport', {
+        params,
+      });
+    } else {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/cityreport', {
+        params,
+      });
     }
     return result.pipe(
       finalize(() => this.fuelAvailabilityLoading$.set(false))
-    )
+    );
   }
 
-  getFuelAvailabilitySmallStationChart(groupBy: string,dateFilter: DashboardDateFilterModel, tcv: boolean,isSmall:boolean, name?: string ): Observable<ChartApiResponse> {
+  getFuelAvailabilitySmallStationChart(
+    groupBy: string,
+    dateFilter: DashboardDateFilterModel,
+    tcv: boolean,
+    isSmall: boolean,
+    name?: string
+  ): Observable<ChartApiResponse> {
     this.fuelAvailabilitySmallStationLoading$.set(true);
     var params = new HttpParams();
     params = params.append('tcv', tcv);
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
     params = params.append('isSmall', isSmall);
 
-    if(name) params = params.append('name', name);
+    if (name) params = params.append('name', name);
     var result: Observable<ChartApiResponse>;
-    if(groupBy === 'station') {
-      result = this.http.get<ChartApiResponse>(this.apiUrl + '/stationreport', {params});
+    if (groupBy === 'station') {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/stationreport', {
+        params,
+      });
     } else if (groupBy === 'tank') {
-      result = this.http.get<ChartApiResponse>(this.apiUrl + '/tankreport', {params});
-    }
-    else {
-      result = this.http.get<ChartApiResponse>(this.apiUrl + '/cityreport', {params});
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/tankreport', {
+        params,
+      });
+    } else {
+      result = this.http.get<ChartApiResponse>(this.apiUrl + '/cityreport', {
+        params,
+      });
     }
     return result.pipe(
       finalize(() => this.fuelAvailabilitySmallStationLoading$.set(false))
-    )
+    );
   }
 
-
-  getDailyAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+  getDailyAvailabilityCard(
+    dateFilter: DashboardDateFilterModel
+  ): Observable<ChartApiResponse> {
     this.dailyFuelAvailabilityLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
 
-    return this.http.get<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelVolume', {params}).pipe(
-      finalize(() => this.dailyFuelAvailabilityLoading$.set(false))
-    )
+    return this.http
+      .get<ChartApiResponse>(this.apiUrl + '/TanksDailyFuelVolume', { params })
+      .pipe(finalize(() => this.dailyFuelAvailabilityLoading$.set(false)));
   }
-  getAlarmTypesCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse> {
+  getAlarmTypesCard(
+    dateFilter: DashboardDateFilterModel
+  ): Observable<ChartApiResponse> {
     this.alarmTypesLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
 
-    return this.http.get<ChartApiResponse>(this.apiUrl + '/alarmTypesChart', {params}).pipe(
-      finalize(() => this.alarmTypesLoading$.set(false))
-    )
+    return this.http
+      .get<ChartApiResponse>(this.apiUrl + '/alarmTypesChart', { params })
+      .pipe(finalize(() => this.alarmTypesLoading$.set(false)));
   }
 
-  getDailyLeackage(dateFilter: DashboardDateFilterModel , city : boolean): Observable<ChartApiResponse> {
+  getDailyLeackage(
+    dateFilter: DashboardDateFilterModel,
+    city: boolean
+  ): Observable<ChartApiResponse> {
     this.dailyLeackageLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
-    params = params.append('city',city);
+    params = params.append('city', city);
 
-    return this.http.get<ChartApiResponse>(this.apiUrl + '/DailyLeackageChart', {params}).pipe(
-      finalize(() => this.dailyLeackageLoading$.set(false))
-    )
+    return this.http
+      .get<ChartApiResponse>(this.apiUrl + '/DailyLeackageChart', { params })
+      .pipe(finalize(() => this.dailyLeackageLoading$.set(false)));
   }
 
-  getSupplierPerformanceCard(dateFilter: DashboardDateFilterModel , filling : boolean): Observable<ChartApiResponse> {
+  getSupplierPerformanceCard(
+    dateFilter: DashboardDateFilterModel,
+    filling: boolean
+  ): Observable<ChartApiResponse> {
     this.supplierPerformanceLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
     params = params.append('filling', filling);
 
-    return this.http.get<ChartApiResponse>(this.apiUrl + '/SuppliersPerformance', {params}).pipe(
-      finalize(() => this.supplierPerformanceLoading$.set(false))
-    )
+    return this.http
+      .get<ChartApiResponse>(this.apiUrl + '/SuppliersPerformance', { params })
+      .pipe(finalize(() => this.supplierPerformanceLoading$.set(false)));
   }
 
-  getFuelVolumeDiscrepancyCard(dateFilter: any): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult> {
+  getFuelVolumeDiscrepancyCard(
+    dateFilter: any
+  ): Observable<UnjustifiedDiscrepanciesInFuelVolumeResult> {
     this.fuelVolumeDiscrepancyLoading$.set(true);
     var params = new HttpParams();
 
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
     params = params.append('stationGUID', dateFilter.stationGUID);
 
-    return this.http.get<UnjustifiedDiscrepanciesInFuelVolumeResult>(this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume', {params}).pipe(
-      finalize(() => this.fuelVolumeDiscrepancyLoading$.set(false))
-    )
+    return this.http
+      .get<UnjustifiedDiscrepanciesInFuelVolumeResult>(
+        this.apiUrl + '/UnjustifiedDiscrepanciesInFuelVolume',
+        { params }
+      )
+      .pipe(finalize(() => this.fuelVolumeDiscrepancyLoading$.set(false)));
   }
 
-
-  getDaysOfFuelAvailabilityCard(dateFilter: DashboardDateFilterModel): Observable<CityExpectedToProvideFuelResult[]> {
+  getDaysOfFuelAvailabilityCard(
+    dateFilter: DashboardDateFilterModel
+  ): Observable<CityExpectedToProvideFuelResult[]> {
     this.daysOfAvailabilityLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
 
-    return this.http.get<CityExpectedToProvideFuelResult[]>(this.apiUrl + '/CityExpectedToProvideFuel', {params}).pipe(
-      finalize(() => this.daysOfAvailabilityLoading$.set(false))
-    )
+    return this.http
+      .get<CityExpectedToProvideFuelResult[]>(
+        this.apiUrl + '/CityExpectedToProvideFuel',
+        { params }
+      )
+      .pipe(finalize(() => this.daysOfAvailabilityLoading$.set(false)));
   }
 
-
-  getUnacceptedVolumeCard(dateFilter: DashboardDateFilterModel): Observable<ChartApiResponse>
-   {
+  getUnacceptedVolumeCard(
+    dateFilter: DashboardDateFilterModel
+  ): Observable<ChartApiResponse> {
     this.unacceptedVolumeLoading$.set(true);
     var params = new HttpParams();
-    params = params.append('startDate',this.convertToISO(dateFilter.startDate, dateFilter.startTime));
-    params = params.append('endDate', this.convertToISO(dateFilter.endDate, dateFilter.endTime));
+    params = params.append(
+      'startDate',
+      this.convertToISO(dateFilter.startDate, dateFilter.startTime)
+    );
+    params = params.append(
+      'endDate',
+      this.convertToISO(dateFilter.endDate, dateFilter.endTime)
+    );
     params = params.append('threshold', dateFilter.threshold);
 
-    return this.http.get<ChartApiResponse>(this.apiUrl + '/UnAcceptedSatationVolume', {params}).pipe(
-      finalize(() => this.unacceptedVolumeLoading$.set(false))
-    )
+    return this.http
+      .get<ChartApiResponse>(this.apiUrl + '/UnAcceptedSatationVolume', {
+        params,
+      })
+      .pipe(finalize(() => this.unacceptedVolumeLoading$.set(false)));
   }
 
-   getFuelStations() : Observable<LookUpDto[]>
-   {
-      return this.http.get<LookUpDto[]>(this.apiUrl + '/GetStations');
-   }
+  getFuelStations(): Observable<LookUpDto[]> {
+    return this.http.get<LookUpDto[]>(this.apiUrl + '/GetStations');
+  }
 
-   convert12ToISO(date: Date, time: string): string {
+  convert12ToISO(date: Date, time: string): string {
     // Convert 12-hour time (AM/PM) to 24-hour format
     const timeParts = time.match(/^(\d+):(\d+)\s?(AM|PM)$/i);
 
     if (!timeParts) {
-      throw new Error("Invalid time format. Expected format: HH:mm AM/PM");
+      throw new Error('Invalid time format. Expected format: HH:mm AM/PM');
     }
 
     let [_, hours, minutes, period] = timeParts;
     let hourNum = parseInt(hours, 10);
 
-    if (period.toUpperCase() === "PM" && hourNum !== 12) {
+    if (period.toUpperCase() === 'PM' && hourNum !== 12) {
       hourNum += 12;
-    } else if (period.toUpperCase() === "AM" && hourNum === 12) {
+    } else if (period.toUpperCase() === 'AM' && hourNum === 12) {
       hourNum = 0;
     }
 
-    const formattedTime = `${hourNum.toString().padStart(2, "0")}:${minutes}:00`;
+    const formattedTime = `${hourNum
+      .toString()
+      .padStart(2, '0')}:${minutes}:00`;
 
-    return new Date(`${date.toISOString().split("T")[0]}T${formattedTime}Z`).toISOString();
+    return new Date(
+      `${date.toISOString().split('T')[0]}T${formattedTime}Z`
+    ).toISOString();
   }
   convertToISO(date: Date, time: string): string {
     // Validate time format (HH:mm)
     const timeParts = time.match(/^(\d{1,2}):(\d{2})$/);
 
     if (!timeParts) {
-      throw new Error("Invalid time format. Expected format: HH:mm (24-hour)");
+      throw new Error('Invalid time format. Expected format: HH:mm (24-hour)');
     }
 
     const [_, hours, minutes] = timeParts;
 
     // Ensure two-digit format
-    const formattedHours = hours.padStart(2, "0");
-    const formattedMinutes = minutes.padStart(2, "0");
+    const formattedHours = hours.padStart(2, '0');
+    const formattedMinutes = minutes.padStart(2, '0');
 
     // Create a new date in local time
     const localDate = new Date(date);
-    localDate.setHours(parseInt(formattedHours, 10), parseInt(formattedMinutes, 10), 0, 0);
+    localDate.setHours(
+      parseInt(formattedHours, 10),
+      parseInt(formattedMinutes, 10),
+      0,
+      0
+    );
 
     // Convert to ISO string without forcing UTC
     return localDate.toISOString();
   }
 
-
+  getDashboardLayoutView(): Observable<MetaComponent[]> {
+    this.dashboardViewCfgLoading$.set(true);
+    return this.http
+      .get<MetaComponent[]>(this.apiUrl + '/GetDashboardLayoutView')
+      .pipe(finalize(() => this.dashboardViewCfgLoading$.set(false)));
+  }
 }
