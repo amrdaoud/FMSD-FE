@@ -57,7 +57,9 @@ import { DashboardService } from '../../services/dashboard.service';
   styleUrl: './dashboard-layout.component.scss',
 })
 export class DashboardLayoutComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getStyleCfg();
+  }
 
   private dateDialog = inject(MatDialog);
   cols = inject(DeviceService).dashboardCols;
@@ -69,6 +71,10 @@ export class DashboardLayoutComponent implements OnInit {
   private dashboardLayoutView = new BehaviorSubject<MetaComponent[] | null>(
     null
   );
+
+  get dashboardLayoutView$(): Observable<MetaComponent[] | null> {
+    return this.dashboardLayoutView.asObservable();
+  }
 
   dateForm = new FormGroup(
     {
@@ -107,29 +113,17 @@ export class DashboardLayoutComponent implements OnInit {
 
   getComponentStyle(componentName: string): Observable<MetaComponent | null> {
     return this.dashboardLayoutView.pipe(
-      switchMap((metaCard) => {
-        if (metaCard) {
-          // Already loaded, search directly
-          return of(
-            metaCard?.find((x) => x.componentName === componentName) || null
-          );
-        } else {
-          // Not loaded yet, fetch from API
-          return this.dashboardService.getDashboardLayoutView().pipe(
-            tap((response) => this.dashboardLayoutView.next(response)),
-            map(
-              (response) =>
-                response?.find((x) => x.componentName === componentName) || null
-            ),
-            catchError((error) => {
-              console.error('Failed to fetch dashboard layout:', error);
-              this.dashboardLayoutView.next(null);
-              return of(null);
-            })
-          );
-        }
-      }),
+      map(
+        (metaCard) =>
+          metaCard?.find((x) => x.componentName === componentName) || null
+      ),
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
     );
+  }
+
+  getStyleCfg() {
+    this.dashboardService.getDashboardLayoutView().subscribe((response) => {
+      this.dashboardLayoutView.next(response);
+    });
   }
 }
