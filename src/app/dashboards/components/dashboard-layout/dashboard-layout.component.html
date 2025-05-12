@@ -19,6 +19,8 @@
     <button mat-flat-button (click)="openDateDialog()">Filters</button>
   </div>
 </div>
+
+@if(!loading()) {
 <mat-grid-list
   rowHeight="200"
   [cols]="cols()"
@@ -27,101 +29,154 @@
     let tenant of (accountService.authData$ | async)?.userInfo?.tenantAccesses
   "
 >
-  <mat-grid-tile
-    rowspan="2"
-    [colspan]="3"
-    *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+  <ng-container
+    *ngIf="
+      getComponentStyle('FuelAvailabilityChartReportComponent') | async as style
+    "
   >
-    @defer (on viewport) {
-    <app-fuel-availability-chart-report [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+    >
+      @defer (on viewport) {
+      <app-fuel-availability-chart-report [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 
-  <mat-grid-tile *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async">
-    @defer(on viewport) {
-    <app-daily-fuel-availability-card [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
-  <mat-grid-tile *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async">
-    @defer(on viewport) {
-    <app-alarm-types-card [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
-  <mat-grid-tile
-    colspan="2"
-    rowspan="2"
-    *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async"
+  <ng-container
+    *ngIf="
+      getComponentStyle('DailyFuelAvailabilityCardComponent') | async as style
+    "
   >
-    @defer(on viewport) {
-    <app-daily-leackage-card [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+    >
+      @defer (on viewport) {
+      <app-daily-fuel-availability-card [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 
-  <mat-grid-tile
-    colspan="2"
-    rowspan="2"
-    *ngIf="accountService.hasRole$(['Admin', 'Group3']) | async"
+  <ng-container
+    *ngIf="getComponentStyle('AlarmTypesCardComponent') | async as style"
   >
-    @defer(on viewport) {
-    <app-small-station-cards [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async"
+    >
+      @defer (on viewport) {
+      <app-alarm-types-card [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 
-  <mat-grid-tile
-    colspan="2"
-    rowspan="2"
-    *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async"
+  <ng-container
+    *ngIf="getComponentStyle('DailyLeackageCardComponent') | async as style"
   >
-    @defer(on viewport) {
-    <app-fuel-discrepancy-card [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async"
+    >
+      @defer (on viewport) {
+      <app-daily-leackage-card [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 
-  <mat-grid-tile
-    colspan="2"
-    rowspan="2"
-    *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+  <ng-container
+    *ngIf="getComponentStyle('SmallStationCardsComponent') | async as style"
   >
-    @defer(on viewport) {
-    <app-city-expected-fule [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group3']) | async"
+    >
+      @defer (on viewport) {
+      <app-small-station-cards [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 
-  <mat-grid-tile
-    colspan="2"
-    rowspan="2"
-    *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+  <ng-container
+    *ngIf="getComponentStyle('FuelDiscrepancyCardComponent') | async as style"
   >
-    @defer(on viewport) {
-    <app-unaccepted-volume-card [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group2']) | async"
+    >
+      @defer (on viewport) {
+      <app-fuel-discrepancy-card [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 
-  <mat-grid-tile
-    colspan="2"
-    rowspan="2"
-    *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+  <ng-container
+    *ngIf="getComponentStyle('CityExpectedFuleComponent') | async as style"
   >
-    @defer(on viewport) {
-    <app-suppliers-performance-card [dateFilter]="dateFilter()" />
-    } @placeholder {
-    <div>Loading Component</div>
-    }
-  </mat-grid-tile>
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+    >
+      @defer (on viewport) {
+      <app-city-expected-fule [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
+
+  <ng-container
+    *ngIf="getComponentStyle('UnacceptedVolumeCardComponent') | async as style"
+  >
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+    >
+      @defer (on viewport) {
+      <app-unaccepted-volume-card [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
+
+  <ng-container
+    *ngIf="
+      getComponentStyle('SuppliersPerformanceCardComponent') | async as style
+    "
+  >
+    <mat-grid-tile
+      [rowspan]="style?.rows"
+      [colspan]="style?.cols"
+      *ngIf="accountService.hasRole$(['Admin', 'Group1']) | async"
+    >
+      @defer (on viewport) {
+      <app-suppliers-performance-card [dateFilter]="dateFilter()" />
+      } @placeholder {
+      <div>Loading Component</div>
+      }
+    </mat-grid-tile>
+  </ng-container>
 </mat-grid-list>
+}

@@ -35,11 +35,14 @@ export class AccountService {
   }
   login(): Observable<TokenDto> {
     this.Logging.next(true);
+
     return this.http.get<TokenDto>(this.url, { withCredentials: true }).pipe(
-      tap((x) => this.storeAuth(x)),
-      finalize(() => this.Logging.next(false))
+      tap((x) => this.storeAuth(x)), // Store token
+      tap(() => window.location.reload()), // Reload after successful login
+      finalize(() => this.Logging.next(false)) // Reset loading flag
     );
   }
+
   isTokenExpired(): boolean {
     return !this.auth || Date.now() >= new Date(this.auth.expiryTime).getTime();
   }
