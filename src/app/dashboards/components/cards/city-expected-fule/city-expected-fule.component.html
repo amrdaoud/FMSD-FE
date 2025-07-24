@@ -14,7 +14,12 @@
   >
     <div class="chart-content">
       <mat-list role="list">
-        @for (item of report(); track $index) {
+        @if(!loading()) {
+        <div style="text-align: center; margin-top: 100px">
+          Loading Component...
+        </div>
+
+        } @else { @for (item of report(); track $index) {
         <mat-list-item role="listitem" class="custom-list-item">
           <div class="list-content">
             <div style="display: flex; flex-direction: column">
@@ -42,7 +47,7 @@
           </div>
         </mat-list-item>
         <mat-divider></mat-divider>
-        }
+        } }
       </mat-list>
     </div>
 
