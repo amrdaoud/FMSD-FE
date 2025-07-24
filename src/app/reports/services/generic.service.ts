@@ -7,14 +7,13 @@ import { Tank } from '../reports/alarms-report/models/tank';
 import { LookUpDto } from '../../dashboards/models/dashboard';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GenericService {
   private reportUrl = environment.apiUrl + 'filters/';
-  
+
   private http = inject(HttpClient);
 
-  
   private loadingAlarmTypes$ = signal(false);
   get loadingAlarmTypes(): Signal<boolean> {
     return this.loadingAlarmTypes$;
@@ -40,7 +39,6 @@ export class GenericService {
     return this.loadingTypes$;
   }
 
-
   private loadingLeakageTypes$ = signal(false);
   get loadingLeakageTypes(): Signal<boolean> {
     return this.loadingLeakageTypes$;
@@ -53,63 +51,61 @@ export class GenericService {
 
   getAlarmTypes(): Observable<string[]> {
     this.loadingAlarmTypes$.set(true);
-    return this.http.get<string[]>(this.reportUrl + 'AlarmTypes').pipe(
-      finalize(() => this.loadingAlarmTypes$.set(false))
-    )
+    return this.http
+      .get<string[]>(this.reportUrl + 'AlarmTypes')
+      .pipe(finalize(() => this.loadingAlarmTypes$.set(false)));
   }
 
   getCities(): Observable<string[]> {
     this.loadingCities$.set(true);
-    return this.http.get<string[]>(this.reportUrl + 'cities').pipe(
-      finalize(() => this.loadingCities$.set(false))
-    )
+    return this.http
+      .get<string[]>(this.reportUrl + 'cities')
+      .pipe(finalize(() => this.loadingCities$.set(false)));
   }
 
   getStations(name?: string): Observable<Station[]> {
     this.loadingStations$.set(true);
-    let params = new HttpParams();
-    if(name) {
-      params = params.append('name', name);
-    }
-    return this.http.get<Station[]>(this.reportUrl + 'stations', {params}).pipe(
-      finalize(() => this.loadingStations$.set(false))
-    )
+    // let params = new HttpParams();
+    // if (name) {
+    //   params = params.append('name', name);
+    // }
+    return this.http
+      .post<Station[]>(this.reportUrl + 'stations', name)
+      .pipe(finalize(() => this.loadingStations$.set(false)));
   }
 
-  getTanks(cityName?: string, stationGuid?: string): Observable<Tank[]> {
+  getTanks(cityName?: string, stationGuid?: string[]): Observable<Tank[]> {
     this.loadingTanks$.set(true);
-    let params = new HttpParams();
-    if(cityName) {
-      params = params.append('cityName', cityName);
-    }
-    if(stationGuid) {
-      params = params.append('stationGuid', stationGuid);
-    }
-    return this.http.get<Tank[]>(this.reportUrl + 'Tanks', {params}).pipe(
-      finalize(() => this.loadingTanks$.set(false))
-    )
+    // let params = new HttpParams();
+    // if (cityName) {
+    //   params = params.append('cityName', cityName);
+    // }
+    // if (stationGuid) {
+    //   params = params.append('stationGuid', stationGuid);
+    // }
+    return this.http
+      .post<Tank[]>(this.reportUrl + 'Tanks', stationGuid)
+      .pipe(finalize(() => this.loadingTanks$.set(false)));
   }
-
 
   getOperationTypes(): Observable<LookUpDto[]> {
     this.loadingTypes$.set(true);
-    return this.http.get<LookUpDto[]>(this.reportUrl + 'OperationTypes').pipe(
-      finalize(() => this.loadingTypes$.set(false))
-    )
+    return this.http
+      .get<LookUpDto[]>(this.reportUrl + 'OperationTypes')
+      .pipe(finalize(() => this.loadingTypes$.set(false)));
   }
 
   getLeakageTypes(): Observable<LookUpDto[]> {
     this.loadingLeakageTypes$.set(true);
-    return this.http.get<LookUpDto[]>(this.reportUrl + 'LeakagesTypes').pipe(
-      finalize(() => this.loadingLeakageTypes$.set(false))
-    )
+    return this.http
+      .get<LookUpDto[]>(this.reportUrl + 'LeakagesTypes')
+      .pipe(finalize(() => this.loadingLeakageTypes$.set(false)));
   }
 
-  getStationPumbs(): Observable<LookUpDto[]> {
+  getStationPumbs(tangGuids?: string[]): Observable<LookUpDto[]> {
     this.loadingPumbNumber$.set(true);
-    return this.http.get<LookUpDto[]>(this.reportUrl + 'Pumbs').pipe(
-      finalize(() => this.loadingPumbNumber$.set(false))
-    )
+    return this.http
+      .post<LookUpDto[]>(this.reportUrl + 'Pumbs', tangGuids)
+      .pipe(finalize(() => this.loadingPumbNumber$.set(false)));
   }
-
 }
