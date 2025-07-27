@@ -1,46 +1,56 @@
 <app-dashboard-card-layout>
   <div class="dashboard-card-header">
-      <div class="dashboard-card-title-subtitle">
-          <div class="dashboard-card-title">
-            Suppliers Performance
-          </div>
-          <div class="dashboard-card-subtitle">
-            View the total volume and count of filling operations by each supplier
-          </div>
+    <div class="dashboard-card-title-subtitle">
+      <div class="dashboard-card-title">Suppliers Performance</div>
+      <div class="dashboard-card-subtitle">
+        @if(selectedOption() === 1) { View the total volume and count of filling
+        operations by each supplier } @else { View the total volume and count of
+        distribution operations by each supplier }
       </div>
-      <!-- <mat-button-toggle-group [value]="selectedOption()" (valueChange)="selectedOption.set($event)">
-        @for (item of options; track $index) {
-        <mat-button-toggle [value]="$index">{{item}}</mat-button-toggle>
-        }
-    </mat-button-toggle-group> -->
+    </div>
+    <mat-button-toggle-group
+      [value]="selectedOption()"
+      (valueChange)="selectedOption.set($event)"
+    >
+      @for (item of options; track $index) {
+      <mat-button-toggle [value]="$index">{{ item }}</mat-button-toggle>
+      }
+    </mat-button-toggle-group>
   </div>
 
   <div class="dashboard-card-info">
-    @for (item of reportFillingChart().values; track $index) {
-      <div class="value-container">
-          <div class="text">
-              {{item.name}}
-          </div>
-          <div class="value">
-              {{item.value}}
-          </div>
+    @for (item of (selectedOption() === 1 ? reportFillingChart().values :
+    reportDistributionChart().values); track $index) {
+    <div class="value-container">
+      <div class="text">
+        {{ item.name }}
       </div>
-      }
+      <div class="value">
+        {{ item.value }}
+      </div>
+    </div>
+    }
   </div>
 
   <div class="dashboard-card-content">
-
-          <div class="chart-content">
-          <app-chart
-          [datasets]="reportFillingChart().datasets"
-          [labels]="reportFillingChart().labels"
-          [chartType]="'bar'"
-          [loading]="loading()"
-          [chartHeightPercent]="99"
-          [stacked]="true"
-          >
-          </app-chart>
-      </div>
+    <div class="chart-content">
+      <app-chart
+        [datasets]="
+          selectedOption() === 1
+            ? reportFillingChart().datasets
+            : reportDistributionChart().datasets
+        "
+        [labels]="
+          selectedOption() === 1
+            ? reportFillingChart().labels
+            : reportDistributionChart().labels
+        "
+        [chartType]="'bar'"
+        [loading]="loading()"
+        [chartHeightPercent]="99"
+        [stacked]="true"
+      >
+      </app-chart>
+    </div>
   </div>
-
 </app-dashboard-card-layout>
