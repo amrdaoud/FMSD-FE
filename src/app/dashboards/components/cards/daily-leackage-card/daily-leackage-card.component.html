@@ -1,65 +1,100 @@
 <app-dashboard-card-layout>
-    <div class="dashboard-card-header">
-        <div class="dashboard-card-title-subtitle">
-            <div class="dashboard-card-title">
-                Cummulitive Leackage
-            </div>
-            <div class="dashboard-card-subtitle">
-                Detect continuous leakages across cities.
-            </div>
-        </div>
-        <mat-button-toggle-group [value]="selectedOption()" (valueChange)="selectedOption.set($event)">
-          @for (item of options; track $index) {
-          <mat-button-toggle [value]="$index">{{item}}</mat-button-toggle>
-          }
-      </mat-button-toggle-group>
+  <div class="dashboard-card-header">
+    <div class="dashboard-card-title-subtitle">
+      <div class="dashboard-card-title">Daily Leackages</div>
+      <div class="dashboard-card-subtitle">
+        Detect continuous leakages across cities.
+      </div>
     </div>
-    <div class="dashboard-card-info">
-      @for (item of selectedOption() === 0 ? chartStationReport().values : chartCityReport().values; track $index) {
-        <div class="value-container">
-            <div class="text">
-                {{item.name}}
-            </div>
-            <div class="value">
-                {{item.value}}
-            </div>
-        </div>
-        }
-
+    <mat-button-toggle-group
+      [value]="selectedOption()"
+      (valueChange)="selectedOption.set($event)"
+    >
+      @for (item of options; track $index) {
+      <mat-button-toggle [value]="$index">{{ item }}</mat-button-toggle>
+      }
+    </mat-button-toggle-group>
+  </div>
+  <div class="dashboard-card-info">
+    @for (item of selectedOption() === 0 ? chartStationReport().values :
+    chartCityReport().values; track $index) {
+    <div class="value-container">
+      <div class="text">
+        {{ item.name }}
+      </div>
+      <div class="value">
+        {{ item.value }}
+      </div>
     </div>
-    <div class="dashboard-card-content">
-        <div class="card-content">
-            <div class="text-area">
-                <div class="ledger-area">
-                    <div class="value">
-                        {{selectedOption() === 0 ? chartStationReport().cardValue?.boldValue : chartCityReport().cardValue?.boldValue}}
-                    </div>
-                    <div class="details">
-                        @if(selectedOption() === 0 ? chartStationReport().cardValue?.icon : chartCityReport().cardValue?.icon) {
-                        <mat-icon [ngStyle]="{'color': selectedOption() === 0 ? chartStationReport().cardValue?.icon?.color : chartCityReport().cardValue?.icon?.color}">
-                          {{selectedOption() === 0 ? chartStationReport().cardValue?.icon?.text : chartCityReport().cardValue?.icon?.text}}
-                        </mat-icon>
-                        }
-                        <span class="text">
-                          {{selectedOption() === 0 ? chartStationReport().cardValue?.lightValue : chartCityReport().cardValue?.lightValue}}
-                        </span>
-                    </div>
-                </div>
-                <div class="title-area">
-                  {{selectedOption() === 0 ? chartStationReport().cardValue?.boldValueTitle : chartCityReport().cardValue?.boldValueTitle}}
-                </div>
-            </div>
-            <div class="chart-content">
-                <app-chart [chartType]="'line'"
-                 [datasets]="selectedOption() === 0 ? chartStationReport().datasets : chartCityReport().datasets"
-                  [labels]="selectedOption() === 0 ? chartStationReport().labels : chartCityReport().labels"
-                    [displayLegend]="true"
-                     [displayX]="false"
-                      [displayY]="true"
-                       [pointRadius]="3"
-                    [loading]="loading()">
-                </app-chart>
-            </div>
+    }
+  </div>
+  <div class="dashboard-card-content">
+    <div class="card-content">
+      <div class="text-area">
+        <div class="ledger-area">
+          <div class="value">
+            {{
+              selectedOption() === 0
+                ? chartStationReport().cardValue?.boldValue
+                : chartCityReport().cardValue?.boldValue
+            }}
+          </div>
+          <div class="details">
+            @if(selectedOption() === 0 ? chartStationReport().cardValue?.icon :
+            chartCityReport().cardValue?.icon) {
+            <mat-icon
+              [ngStyle]="{
+                color:
+                  selectedOption() === 0
+                    ? chartStationReport().cardValue?.icon?.color
+                    : chartCityReport().cardValue?.icon?.color
+              }"
+            >
+              {{
+                selectedOption() === 0
+                  ? chartStationReport().cardValue?.icon?.text
+                  : chartCityReport().cardValue?.icon?.text
+              }}
+            </mat-icon>
+            }
+            <span class="text">
+              {{
+                selectedOption() === 0
+                  ? chartStationReport().cardValue?.lightValue
+                  : chartCityReport().cardValue?.lightValue
+              }}
+            </span>
+          </div>
         </div>
+        <div class="title-area">
+          {{
+            selectedOption() === 0
+              ? chartStationReport().cardValue?.boldValueTitle
+              : chartCityReport().cardValue?.boldValueTitle
+          }}
+        </div>
+      </div>
+      <div class="chart-content">
+        <app-chart
+          [chartType]="'line'"
+          [datasets]="
+            selectedOption() === 0
+              ? chartStationReport().datasets
+              : chartCityReport().datasets
+          "
+          [labels]="
+            selectedOption() === 0
+              ? chartStationReport().labels
+              : chartCityReport().labels
+          "
+          [displayLegend]="true"
+          [displayX]="false"
+          [displayY]="true"
+          [pointRadius]="3"
+          [loading]="loading()"
+        >
+        </app-chart>
+      </div>
     </div>
+  </div>
 </app-dashboard-card-layout>
